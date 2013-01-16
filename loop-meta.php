@@ -59,6 +59,8 @@
 
 			<div class="loop-description">
 				<?php echo term_description( '', get_query_var( 'taxonomy' ) ); ?>
+
+				<?php if ( is_tax( 'portfolio' ) ) get_template_part( 'menu', 'portfolio' ); ?>
 			</div><!-- .loop-description -->
 
 		</div><!-- .loop-meta -->
@@ -101,6 +103,8 @@
 
 			<div class="loop-description">
 				<?php if ( !empty( $post_type->description ) ) echo wpautop( $post_type->description ); ?>
+
+				<?php if ( is_post_type_archive( 'portfolio_item' ) ) get_template_part( 'menu', 'portfolio' ); ?>
 			</div><!-- .loop-description -->
 
 		</div><!-- .loop-meta -->

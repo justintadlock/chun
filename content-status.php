@@ -45,6 +45,14 @@ do_atomic( 'before_entry' ); // unique_before_entry ?>
 			<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'unique' ) . '</span>', 'after' => '</p>' ) ); ?>
 		</div><!-- .entry-content -->
 
+		<?php if ( !get_option( 'show_avatars' ) ) { ?>
+
+			<footer class="entry-footer">
+				<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[post-format-link] updated on [entry-published] [entry-permalink before="| "] [entry-edit-link before="| "]', 'unique' ) . '</div>' ); ?>
+			</footer><!-- .entry-footer -->
+
+		<?php } ?>
+
 	<?php } ?>
 
 	<?php do_atomic( 'close_entry' ); // unique_close_entry ?>

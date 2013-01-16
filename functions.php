@@ -59,15 +59,10 @@ function picturesque_theme_setup() {
 	add_theme_support( 'hybrid-core-styles', array( '25px', 'gallery', 'parent', 'style' ) );
 
 	/* Add theme support for framework extensions. */
-	add_theme_support( 'theme-layouts', 
-		array( 
-			'1c', 
-			'2c-l', 
-			'2c-r' 
-		),
-		array(
-			'default' => '2c-l' 
-		)
+	add_theme_support( 
+		'theme-layouts', 
+		array( '1c', '2c-l', '2c-r' ),
+		array( 'default' => '2c-l' )
 	);
 
 	add_theme_support( 'post-stylesheets' );
@@ -130,9 +125,63 @@ function picturesque_theme_setup() {
 	/* Add infinity symbol to aside posts. */
 	add_filter( 'the_content', 'picturesque_post_format_tools_aside_infinity', 9 ); // run before wpautop
 
-	/* Filters the image/gallery post format archive galleries. */
-	add_filter( "{$prefix}_post_format_archive_gallery_columns", 'picturesque_archive_gallery_columns' );
+	add_action( 'init', 'chun_register_image_sizes' );
+
+	/* Testing out some early Hybrid Core 1.6 proposed HTML changes. */
+	add_filter( "{$prefix}_sidebar_defaults", 'chun_sidebar_defaults' );
+	add_filter( 'cleaner_gallery_defaults',   'chun_gallery_defaults' );
 }
+
+function chun_register_image_sizes() {
+
+	/* Size: 'post-thumbnail' */
+	set_post_thumbnail_size( 150, 150 );
+
+	/* For the CPT: Portfolio plugin. */
+	if ( post_type_exists( 'portfolio_item' ) )
+		add_image_size( 'portfolio-large', 650, 488, true );
+}
+
+add_filter( 'embed_handler_html', 'chun_embed_html' );
+add_filter( 'embed_oembed_html',  'chun_embed_html' );
+
+function chun_embed_html( $html ) {
+
+	if ( in_the_loop() && has_post_format( 'video' ) && preg_match( '/(<embed|object|iframe)/', $html ) )
+		$html = '<div class="embed-wrap">' . $html . '</div>';
+
+	return $html;
+}
+
+/* === HYBRID CORE 1.6 CHANGES. === 
+ *
+ * The following changes are slated for Hybrid Core version 1.6 to make it easier for 
+ * theme developers to build awesome HTML5 themes.  If you overwrite these via a hook, 
+ * keep in mind that you might need to change your code in the next major theme update.
+ */
+
+	function chun_sidebar_defaults( $defaults ) {
+
+		$defaults = array(
+			'before_widget' => '<section id="%1$s" class="widget %2$s widget-%2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>'
+		);
+
+		return $defaults;
+	}
+
+	function chun_gallery_defaults( $defaults ) {
+
+		$defaults['itemtag']    = 'figure';
+		$defaults['icontag']    = 'div';
+		$defaults['captiontag'] = 'figcaption';
+
+		return $defaults;
+	}
+
+/* End Hybrid Core 1.6 section. */
 
 /**
  * Adds an infinity character "&#8734;" to the end of the post content on 'aside' posts.
@@ -222,7 +271,10 @@ function picturesque_one_column() {
 	if ( !is_active_sidebar( 'primary' ) && !is_active_sidebar( 'secondary' ) )
 		add_filter( 'get_theme_layout', 'picturesque_theme_layout_one_column' );
 
-	elseif ( is_attachment() && 'layout-default' == theme_layouts_get_layout() )
+	elseif ( is_attachment() && wp_attachment_is_image() && 'default' == get_post_layout( get_queried_object_id() ) )
+		add_filter( 'get_theme_layout', 'picturesque_theme_layout_one_column' );
+
+	elseif ( is_post_type_archive( 'portfolio_item' ) || is_tax( 'portfolio' ) )
 		add_filter( 'get_theme_layout', 'picturesque_theme_layout_one_column' );
 }
 
@@ -273,7 +325,7 @@ function picturesque_embed_defaults( $args ) {
 		$layout = theme_layouts_get_layout();
 
 		if ( 'layout-1c' == $layout )
-			$args['width'] = 950;
+			$args['width'] = 1000;
 	}
 
 	return $args;
@@ -450,5 +502,6 @@ function picturesque_image_info() {
 	/* Display the image info and allow devs to overwrite the final output. */
 	echo apply_atomic( 'image_info', $output );
 }
+
 
 ?>

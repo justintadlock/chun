@@ -18,7 +18,7 @@ if ( is_active_sidebar( 'primary' ) ) : ?>
 
 	<?php do_atomic( 'before_sidebar_primary' ); // picturesque_before_sidebar_primary ?>
 
-	<div id="sidebar-primary" class="sidebar">
+	<aside id="sidebar-primary" class="sidebar">
 
 		<?php do_atomic( 'open_sidebar_primary' ); // picturesque_open_sidebar_primary ?>
 
@@ -26,7 +26,7 @@ if ( is_active_sidebar( 'primary' ) ) : ?>
 
 		<?php do_atomic( 'close_sidebar_primary' ); // picturesque_close_sidebar_primary ?>
 
-	</div><!-- #sidebar-primary .aside -->
+	</aside><!-- #sidebar-primary .aside -->
 
 	<?php do_atomic( 'after_sidebar_primary' ); // picturesque_after_sidebar_primary ?>
 

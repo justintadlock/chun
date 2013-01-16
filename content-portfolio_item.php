@@ -1,17 +1,4 @@
 <?php
-/**
- * Gallery Content Template
- *
- * Template used to show posts with the 'gallery' post format.
- *
- * @package Picturesque
- * @subpackage Template
- * @since 0.1.0
- * @author Justin Tadlock <justin@justintadlock.com>
- * @copyright Copyright (c) 2012, Justin Tadlock
- * @link http://themehybrid.com/themes/picturesque
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
 
 do_atomic( 'before_entry' ); // picturesque_before_entry ?>
 
@@ -23,7 +10,16 @@ do_atomic( 'before_entry' ); // picturesque_before_entry ?>
 
 		<header class="entry-header">
 			<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
-			<?php echo apply_atomic_shortcode( 'byline', '<div class="byline">' . __( '[post-format-link] published on [entry-published] [entry-comments-link before=" | "] [entry-edit-link before=" | "]', 'picturesque' ) . '</div>' ); ?>
+
+<div class="byline">
+<?php echo do_shortcode( '[entry-terms taxonomy="portfolio" before="Portfolio: "]' ); ?>
+
+<?php $cptp_item_url = get_post_meta( get_the_ID(), '_portfolio_item_url', true );
+if ( !empty( $cptp_item_url ) )
+	echo '<a href="' . esc_url( $cptp_item_url ) . '">Project <abbr title="Uniform Resource Locator">URL</abbr></a>';
+?>
+</div>
+
 		</header><!-- .entry-header -->
 
 		<div class="entry-content">
@@ -32,30 +28,28 @@ do_atomic( 'before_entry' ); // picturesque_before_entry ?>
 		</div><!-- .entry-content -->
 
 		<footer class="entry-footer">
-			<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-terms taxonomy="category" before="Posted in "] [entry-terms before="Tagged "]', 'picturesque' ) . '</div>' ); ?>
+			<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-published] [entry-edit-link before="| "]', 'picturesque' ) . '</div>' ); ?>
 		</footer><!-- .entry-footer -->
 
 	<?php } else { ?>
+
 		<header class="entry-header">
 			<?php echo apply_atomic_shortcode( 'entry_title', '[entry-title]' ); ?>
 		</header><!-- .entry-header -->
 
 		<div class="entry-summary">
 
-			<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'size' => 'post-thumbnail' ) ); ?>
+			<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'size' => 'portfolio-large', 'image_scan' => true ) ); ?>
 
 			<?php if ( has_excerpt() ) {
 				the_excerpt();
 				wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'picturesque' ) . '</span>', 'after' => '</p>' ) );
 			} ?>
 
-			<?php $count = picturesque_get_image_attachment_count(); ?>
-			<p class="image-count"><?php printf( _n( 'This gallery contains %s image.', 'This gallery contains %s images.', $count, 'picturesque' ), $count ); ?></p>
-
 		</div><!-- .entry-summary -->
 
 		<footer class="entry-footer">
-			<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[post-format-link] published on [entry-published] [entry-permalink before="| "] [entry-comments-link before="| "] [entry-edit-link before="| "]', 'picturesque' ) . '</div>' ); ?>
+			<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-published] [entry-edit-link before="| "]', 'picturesque' ) . '</div>' ); ?>
 		</footer><!-- .entry-footer -->
 
 	<?php } ?>
