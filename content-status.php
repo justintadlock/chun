@@ -19,7 +19,7 @@ do_atomic( 'before_entry' ); // unique_before_entry ?>
 
 	<?php do_atomic( 'open_entry' ); // unique_open_entry ?>
 
-	<?php if ( is_singular() ) { ?>
+	<?php if ( is_singular( get_post_type() ) ) { ?>
 
 		<header class="entry-header">
 			<?php echo get_avatar( get_the_author_meta( 'email' ) ); ?>

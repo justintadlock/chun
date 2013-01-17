@@ -63,7 +63,7 @@ get_header(); // Loads the header.php template. ?>
 
 						<?php picturesque_image_info(); ?>
 
-						<?php $gallery = gallery_shortcode( array( 'columns' => 5, 'numberposts' => 10, 'id' => $post->post_parent, 'exclude' => get_the_ID() ) ); ?>
+						<?php $gallery = gallery_shortcode( array( 'columns' => 4, 'numberposts' => 8, 'id' => $post->post_parent, 'exclude' => get_the_ID() ) ); ?>
 
 						<?php if ( !empty( $gallery ) ) { ?>
 							<div class="image-gallery">

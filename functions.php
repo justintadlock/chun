@@ -132,10 +132,12 @@ function picturesque_theme_setup() {
 	add_filter( 'cleaner_gallery_defaults',   'chun_gallery_defaults' );
 }
 
+
+
 function chun_register_image_sizes() {
 
 	/* Size: 'post-thumbnail' */
-	set_post_thumbnail_size( 150, 150 );
+	set_post_thumbnail_size( 160, 120, true );
 
 	/* For the CPT: Portfolio plugin. */
 	if ( post_type_exists( 'portfolio_item' ) )
@@ -174,6 +176,7 @@ function chun_embed_html( $html ) {
 
 	function chun_gallery_defaults( $defaults ) {
 
+		$defaults['size']       = 'post-thumbnail'; // Not for Hybrid Core 1.6.
 		$defaults['itemtag']    = 'figure';
 		$defaults['icontag']    = 'div';
 		$defaults['captiontag'] = 'figcaption';

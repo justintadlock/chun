@@ -16,6 +16,8 @@
 
 	<div id="container">
 
+		<div class="wrap">
+
 		<header id="header">
 
 			<hgroup id="branding">

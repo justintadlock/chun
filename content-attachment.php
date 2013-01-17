@@ -19,7 +19,7 @@ do_atomic( 'before_entry' ); // picturesque_before_entry ?>
 
 	<?php do_atomic( 'open_entry' ); // picturesque_open_entry ?>
 
-	<?php if ( is_singular() ) { ?>
+	<?php if ( is_singular( get_post_type() ) ) { ?>
 
 		<header class="entry-header">
 			<?php echo apply_atomic_shortcode( 'entry_title', '[entry-title]' ); ?>
@@ -37,7 +37,7 @@ do_atomic( 'before_entry' ); // picturesque_before_entry ?>
 
 	<?php } else { ?>
 
-		<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'meta_key' => 'Thumbnail', 'size' => 'thumbnail' ) ); ?>
+		<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'size' => 'post-thumbnail' ) ); ?>
 
 		<header class="entry-header">
 			<?php echo apply_atomic_shortcode( 'entry_title', '[entry-title]' ); ?>

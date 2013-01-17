@@ -274,8 +274,8 @@ img {
 .thumbnail,
 .post-thumbnail {
 	float: right;
-	max-width: 180px; /* 150 (size) + 30 (padding) - account for the border-box sizing */
-	max-height: 180px;
+	max-width: 190px; /* 160 (size) + 30 (padding) - account for the border-box sizing */
+	max-height: 150px; /* 120 + 30 */
 	margin: 0 0 25px 25px;
 }
 
@@ -399,77 +399,25 @@ a:hover .avatar {
 		margin: 0 auto;
 	}
 
-		#header {
-			width: 300px;
-		}
-
-		.layout-2c-l #header {
-			float: right;
-		}
-
-		.layout-2c-r #header {
-			float: left;
-		}
-
-		.layout-1c #header {
-			margin: 0 auto;
-		}
-
-		.layout-1c #menu-primary {
-			width: 100%;
-		}
-
 		#menu-primary {
+			margin: 0 0 25px;
+		}
+
+		#container > .wrap {
 			width: 750px;
-			margin: 15px 0 15px;
 		}
 
-		.layout-2c-l #menu-primary {
-			float: left;
-		}
-
-		.layout-2c-r #menu-primary {
-			float: right;
-		}
-
-		.layout-2c-r #menu-primary > ul.menu-items {
-			float: right;
-		}
-
-		#main {
-			clear: both;
+		.layout-1c #container > .wrap {
 			width: 100%;
 		}
 
-			.breadcrumb-trail {
-				float: left;
-				max-width: 750px;
-			}
+		.layout-2c-l #container > .wrap {
+			float: left;
+		}
 
-			.layout-2c-r .breadcrumb-trail {
-				float: right;
-			}
-
-			.layout-1c .breadcrumb-trail {
-				clear: both;
-				width: 100%;
-				max-width: 100%;
-			}
-
-			#content {
-				clear: left;
-				float: left;
-				width: 750px;
-			}
-
-			.layout-2c-r #content {
-				clear: right;
-				float: right;
-			}
-
-			.layout-1c #content {
-				width: 100%;
-			}
+		.layout-2c-r #container > .wrap {
+			float: right;
+		}
 
 			#sidebar-primary {
 				float: right;
@@ -494,26 +442,30 @@ a:hover .avatar {
  * Header
  * --------------------------------------------------------------------------- */
 
+#header {
+}
+
+#branding {
+		text-align: center;
+	}
+
 	#site-title {
-		width: width: 100%;
-		margin: 0 0 5px;
+		display: inline-block;
+		margin: 0 auto 5px;
 		font-size: 16px;
 		background: #cb5700;
 		text-align: center;
 	}
 
 		#site-title a {
-			display: block;
+			display: inline-block;
 			margin: 0;
 			padding: 15px 5px 20px;
+			padding: 5px 50px;
 			color: #f5f5f5;
+		background: #cb5700;
 			border-bottom: 5px solid transparent;
 			box-sizing: border-box;
-		}
-
-		.layout-1c #site-title a {
-			padding-top: 0;
-			padding-bottom: 5px;
 		}
 
 			#site-title a:hover {
@@ -525,6 +477,7 @@ a:hover .avatar {
 		visibility: hidden;
 		opacity: 0;
 		margin: 0 0 5px;
+		margin: 0 auto;
 		font-family: Georgia, Times, 'Times New Roman', serif;
 		font-size: .85rem;
 		font-style: italic;
@@ -539,9 +492,6 @@ a:hover .avatar {
 		-webkit-transition: all 0.5s ease-in-out;
 	}
 
-	.layout-1c #site-description {
-		display: none;
-	}
 
 /**
  * Menus
@@ -552,10 +502,10 @@ a:hover .avatar {
 	#menu-primary ul {
 		margin: 0;
 		list-style: none;
-		text-align: left;
+		text-align: center;
 	}
 
-		.layout-1c #menu-primary > ul {
+		#menu-primary > ul {
 			text-align: center;
 		}
 
@@ -674,6 +624,10 @@ a:hover .avatar {
 
 /* ====== Portfolio Menu ====== */
 
+#menu-portfolio {
+	text-align: center;
+}
+
 	#menu-portfolio ul {
 		margin: 0;
 		list-style: none;
@@ -682,7 +636,7 @@ a:hover .avatar {
 		#menu-portfolio li {
 			display: inline-block;
 			position: relative;
-			margin: 0 0 25px;
+			margin: 0 0 10px;
 		}
 
 			#menu-portfolio li a {
@@ -713,7 +667,7 @@ a:hover .avatar {
 /* ====== BREADCRUMBS ====== */
 
 .breadcrumb-trail {
-	padding: 10px 25px 0;
+	padding: 10px 50px 0;
 	font-family: 'ChunkFiveRoman';
 	font-size: .9rem;
 	color: #959595;
@@ -721,10 +675,6 @@ a:hover .avatar {
 	box-sizing: border-box;
 	}
 
-.layout-1c .breadcrumb-trail {
-	padding-left: 50px;
-	padding-right: 50px;
-}
 
 	.breadcrumb-trail .sep,
 	.breadcrumb-trail a,
@@ -759,20 +709,23 @@ a:hover .avatar {
 }
 
 .layout-1c.archive-portfolio_item .hentry,
-.layout-1c.taxonomy-portfolio .hentry {
+.layout-1c.taxonomy-portfolio .hentry,
+.layout-1c.page-template-portfolio .hentry.portfolio_item {
 	clear: both;
 	float: left;
 	width: 47.75%;
 }
 
 .layout-1c.archive-portfolio_item .hentry:nth-child(odd),
-.layout-1c.taxonomy-portfolio .hentry:nth-child(odd) {
+.layout-1c.taxonomy-portfolio .hentry:nth-child(odd),
+.layout-1c.page-template-portfolio .hentry.portfolio_item:nth-child(odd) {
 	clear: none;
 	float: right;
 }
 
 .sticky,
-.loop-meta {
+.loop-meta,
+.page-template-portfolio .hentry.page {
 	background: #fafafa;
 	border-bottom: 4px double #cb5700;
 }
@@ -790,19 +743,19 @@ a:hover .avatar {
 		text-align: center;
 		font-size: 2.75rem;
 		color: #050505;
-		}
+	}
 
 		.entry-title a {
 			padding: 0 2px;
 			color: #050505;
-			}
+		}
 
 		.entry-title a:hover {
 			color: #454545;
 			background: #eee;
 			border-bottom: 1px solid #d5d5d5;
 			text-decoration: none;
-			}
+		}
 
 	/* === Post content and excerpts === */
 
@@ -810,6 +763,33 @@ a:hover .avatar {
 	.entry-summary {
 		word-wrap: break-word;
 	}
+
+	.page-template-portfolio .hentry.page .entry-content {
+		margin: 0 0 25px;
+		text-align: center;
+		font-size: 1.5rem;
+		font-style: italic;
+		color: #959595;
+	}
+
+		.page-template-portfolio .hentry.page em {
+			border-bottom: 1px solid #d5d5d5;
+		}
+		.page-template-portfolio .hentry.page strong {
+			font-weight: normal;
+			color: #050505;
+		}
+		.page-template-portfolio .hentry.page a {
+			font-style: normal;
+			border-bottom: 1px solid transparent;
+		}
+
+		.page-template-portfolio .hentry.page a:hover {
+			color: #656565;
+			background: #eee;
+			border-bottom: 1px solid #d5d5d5;
+			text-decoration: none;
+		}
 
 	.portfolio_item .entry-summary {
 		font-style: italic;
@@ -856,7 +836,7 @@ a:hover .avatar {
 			background: #eee;
 			border-bottom: 1px solid #d5d5d5;
 			text-decoration: none;
-			}
+		}
 
 		.byline .published,
 		.entry-meta .published,
@@ -1476,37 +1456,8 @@ a:hover .avatar {
 	#container {
 		width: 750px;
 	}
-	#header {
-		margin: 0 auto;
-	}
-	.layout-2c-l #header,
-	.layout-2c-r #header {
-		float: none;
-	}
-	#site-title a {
-		padding-top: 0;
-		padding-bottom: 5px;
-	}
-	#site-description {
-		display: none;
-	}
-	#menu-primary,
-	.layout-2c-r #menu-primary {
-		float: none;
-		width: 100%;
-	}
-	#menu-primary > ul.menu-items,
-	.layout-2c-r #menu-primary > ul.menu-items {
-		float: none;
-		text-align: center;
-	}
-	.breadcrumb-trail {
-		width: 100%;
-		max-width: 100%;
-		padding-left: 50px;
-		padding-right: 50px;
-	}
-	#content {
+
+	#container > .wrap {
 		width: 100%;
 	}
 	#sidebar-primary {
@@ -1572,7 +1523,8 @@ a:hover .avatar {
 /* === Clearing floats === */
 
 .clearfix::after,
-#main::after,
+#container::after,
+#container > .wrap::after,
 #header::after,
 #branding::after,
 #menu-primary::after,
