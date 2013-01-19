@@ -1,23 +1,4 @@
-<?php
-/**
- * Chat Content Template
- *
- * Template used to show post content when a more specific template cannot be found.
- *
- * @package Unique
- * @subpackage Template
- * @since 0.1.0
- * @author Justin Tadlock <justin@justintadlock.com>
- * @copyright Copyright (c) 2012, Justin Tadlock
- * @link http://themehybrid.com/themes/unique
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-
-do_atomic( 'before_entry' ); // unique_before_entry ?>
-
 <article id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
-
-	<?php do_atomic( 'open_entry' ); // unique_open_entry ?>
 
 	<?php if ( is_singular( get_post_type() ) ) { ?>
 
@@ -68,8 +49,4 @@ do_atomic( 'before_entry' ); // unique_before_entry ?>
 
 	<?php } ?>
 
-	<?php do_atomic( 'close_entry' ); // unique_close_entry ?>
-
 </article><!-- .hentry -->
-
-<?php do_atomic( 'after_entry' ); // unique_after_entry ?>

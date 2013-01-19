@@ -12,11 +12,7 @@
 
 					<?php get_template_part( 'content', ( post_type_supports( get_post_type(), 'post-formats' ) ? get_post_format() : get_post_type() ) ); ?>
 
-					<?php if ( is_singular() ) { ?>
-
-						<?php comments_template( '/comments.php', true ); // Loads the comments.php template. ?>
-
-					<?php } ?>
+					<?php if ( is_singular() ) comments_template(); // Loads the comments.php template. ?>
 
 				<?php endwhile; ?>
 

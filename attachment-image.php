@@ -1,26 +1,6 @@
-<?php
-/**
- * Attachment Template
- *
- * This is the default attachment template.  It is used when visiting the singular view of a post attachment 
- * page (images, videos, audio, etc.).
- *
- * @package Picturesque
- * @subpackage Template
- * @since 0.1.0
- * @author Justin Tadlock <justin@justintadlock.com>
- * @copyright Copyright (c) 2012, Justin Tadlock
- * @link http://themehybrid.com/themes/picturesque
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-
-get_header(); // Loads the header.php template. ?>
-
-	<?php do_atomic( 'before_content' ); // picturesque_before_content ?>
+<?php get_header(); // Loads the header.php template. ?>
 
 	<div id="content">
-
-		<?php do_atomic( 'open_content' ); // picturesque_open_content ?>
 
 		<div class="hfeed">
 
@@ -28,11 +8,7 @@ get_header(); // Loads the header.php template. ?>
 
 				<?php while ( have_posts() ) : the_post(); ?>
 
-					<?php do_atomic( 'before_entry' ); // picturesque_before_entry ?>
-
 					<article id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
-
-						<?php do_atomic( 'open_entry' ); // picturesque_open_entry ?>
 
 						<header class="entry-header">
 							<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
@@ -53,11 +29,7 @@ get_header(); // Loads the header.php template. ?>
 
 						</div><!-- .entry-content -->
 
-						<?php do_atomic( 'close_entry' ); // picturesque_close_entry ?>
-
 					</article><!-- .hentry -->
-
-					<?php do_atomic( 'after_entry' ); // picturesque_after_entry ?>
 
 					<div class="attachment-meta">
 
@@ -74,9 +46,7 @@ get_header(); // Loads the header.php template. ?>
 
 					</div><!-- .attachment-meta -->
 
-					<?php do_atomic( 'after_singular' ); // picturesque_after_singular ?>
-
-					<?php comments_template( '/comments.php', true ); // Loads the comments.php template. ?>
+					<?php comments_template(); // Loads the comments.php template. ?>
 
 				<?php endwhile; ?>
 
@@ -84,10 +54,6 @@ get_header(); // Loads the header.php template. ?>
 
 		</div><!-- .hfeed -->
 
-		<?php do_atomic( 'close_content' ); // picturesque_close_content ?>
-
 	</div><!-- #content -->
-
-	<?php do_atomic( 'after_content' ); // picturesque_after_content ?>
 
 <?php get_footer(); // Loads the footer.php template. ?>

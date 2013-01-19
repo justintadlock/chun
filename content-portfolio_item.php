@@ -1,25 +1,17 @@
-<?php
-
-do_atomic( 'before_entry' ); // picturesque_before_entry ?>
-
 <article id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
-
-	<?php do_atomic( 'open_entry' ); // picturesque_open_entry ?>
 
 	<?php if ( is_singular( get_post_type() ) ) { ?>
 
 		<header class="entry-header">
 			<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
 
-<div class="byline">
-<?php echo do_shortcode( '[entry-terms taxonomy="portfolio" before="Portfolio: "]' ); ?>
-
-<?php $cptp_item_url = get_post_meta( get_the_ID(), '_portfolio_item_url', true );
-if ( !empty( $cptp_item_url ) )
-	echo '<a href="' . esc_url( $cptp_item_url ) . '">Project <abbr title="Uniform Resource Locator">URL</abbr></a>';
-?>
-</div>
-
+			<?php echo apply_atomic_shortcode( 
+				'byline', 
+				'<div class="byline">' . 
+					hybrid_entry_terms_shortcode( array( 'taxonomy' => 'portfolio', 'before' => __( 'Portfolio:', 'chun' ) . ' ' ) ) . 
+					chun_get_portfolio_item_link() . 
+				'</div>'
+			); ?>
 		</header><!-- .entry-header -->
 
 		<div class="entry-content">
@@ -38,14 +30,12 @@ if ( !empty( $cptp_item_url ) )
 		</header><!-- .entry-header -->
 
 		<div class="entry-summary">
-
 			<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'size' => 'portfolio-large', 'image_scan' => true ) ); ?>
 
 			<?php if ( has_excerpt() ) {
 				the_excerpt();
 				wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'picturesque' ) . '</span>', 'after' => '</p>' ) );
 			} ?>
-
 		</div><!-- .entry-summary -->
 
 		<footer class="entry-footer">
@@ -54,8 +44,4 @@ if ( !empty( $cptp_item_url ) )
 
 	<?php } ?>
 
-	<?php do_atomic( 'close_entry' ); // picturesque_close_entry ?>
-
 </article><!-- .hentry -->
-
-<?php do_atomic( 'after_entry' ); // picturesque_after_entry ?>

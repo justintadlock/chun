@@ -10,56 +10,47 @@
 
 		<div class="hfeed">
 
-			<?php get_template_part( 'loop-meta' ); // Loads the loop-meta.php template. ?>
-
 			<?php if ( have_posts() ) : ?>
 
 				<?php while ( have_posts() ) : the_post(); ?>
 
+					<article id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
 
-<article id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
+						<?php if ( !is_front_page() ) { ?>
+							<header class="entry-header">
+								<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
+							</header><!-- .entry-header -->
+						<?php } ?>
 
-	<?php do_atomic( 'open_entry' ); // picturesque_open_entry ?>
+						<div class="entry-content">
+							<?php the_content(); ?>
+							<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'picturesque' ) . '</span>', 'after' => '</p>' ) ); ?>
+						</div><!-- .entry-content -->
 
-		<?php if ( !is_front_page() ) { ?>
-		<header class="entry-header">
-			<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
-		</header><!-- .entry-header -->
-		<?php } ?>
+						<?php get_template_part( 'menu', 'portfolio' ); ?>
 
-		<div class="entry-content">
-			<?php the_content(); ?>
-			<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'picturesque' ) . '</span>', 'after' => '</p>' ) ); ?>
-		</div><!-- .entry-content -->
-
-		<?php get_template_part( 'menu', 'portfolio' ); ?>
-
-	<?php do_atomic( 'close_entry' ); // picturesque_close_entry ?>
-
-</article><!-- .hentry -->
-
+					</article><!-- .hentry -->
 
 				<?php endwhile; ?>
 
 			<?php endif; ?>
 
-<?php $loop = new WP_Query(
-	array(
-		'post_type'      => 'portfolio_item',
-		'posts_per_page' => 8,
-	)
-); ?>
+			<?php $loop = new WP_Query(
+				array(
+					'post_type'      => 'portfolio_item',
+					'posts_per_page' => 8,
+				)
+			); ?>
 
-<?php if ( $loop->have_posts() ) : ?>
+			<?php if ( $loop->have_posts() ) : ?>
 
-	<?php while( $loop->have_posts() ) : $loop->the_post(); ?>
+				<?php while( $loop->have_posts() ) : $loop->the_post(); ?>
 
-		<?php get_template_part( 'content', get_post_type() ); ?>
+					<?php get_template_part( 'content', get_post_type() ); ?>
 
+				<?php endwhile; ?>
 
-	<?php endwhile; ?>
-
-<?php endif; ?>
+			<?php endif; ?>
 
 		</div><!-- .hfeed -->
 

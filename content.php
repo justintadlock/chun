@@ -2,6 +2,8 @@
 
 	<?php if ( is_singular( get_post_type() ) ) { ?>
 
+<?php echo get_post_format_string( '' ); ?>
+
 		<header class="entry-header">
 			<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
 			<?php echo apply_atomic_shortcode( 'byline', '<div class="byline">' . __( 'Published by [entry-author] on [entry-published] [entry-comments-link before=" | "] [entry-edit-link before=" | "]', 'picturesque' ) . '</div>' ); ?>

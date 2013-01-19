@@ -1,23 +1,4 @@
-<?php
-/**
- * Status Content Template
- *
- * Template used to show posts with the 'status' post format.
- *
- * @package Unique
- * @subpackage Template
- * @since 0.1.0
- * @author Justin Tadlock <justin@justintadlock.com>
- * @copyright Copyright (c) 2012, Justin Tadlock
- * @link http://themehybrid.com/themes/unique
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-
-do_atomic( 'before_entry' ); // unique_before_entry ?>
-
 <article id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
-
-	<?php do_atomic( 'open_entry' ); // unique_open_entry ?>
 
 	<?php if ( is_singular( get_post_type() ) ) { ?>
 
@@ -36,9 +17,9 @@ do_atomic( 'before_entry' ); // unique_before_entry ?>
 
 	<?php } else { ?>
 
-		<header class="entry-header">
+		<?php if ( get_option( 'show_avatars' ) ) { ?>
 			<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php echo get_avatar( get_the_author_meta( 'email' ) ); ?></a>
-		</header><!-- .entry-header -->
+		<?php } ?>
 
 		<div class="entry-content">
 			<?php the_content( __( 'Read more &rarr;', 'unique' ) ); ?>
@@ -55,8 +36,4 @@ do_atomic( 'before_entry' ); // unique_before_entry ?>
 
 	<?php } ?>
 
-	<?php do_atomic( 'close_entry' ); // unique_close_entry ?>
-
 </article><!-- .hentry -->
-
-<?php do_atomic( 'after_entry' ); // unique_after_entry ?>

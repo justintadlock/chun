@@ -18,14 +18,14 @@
  * You should have received a copy of the GNU General Public License along with this program; if not, write 
  * to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
- * @package Picturesque
+ * @package    Picturesque
  * @subpackage Functions
- * @version 0.1.1
- * @since 0.1.0
- * @author Justin Tadlock <justin@justintadlock.com>
- * @copyright Copyright (c) 2012, Justin Tadlock
- * @link http://themehybrid.com/themes/picturesque
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @version    0.1.0
+ * @since      0.1.0
+ * @author     Justin Tadlock <justin@justintadlock.com>
+ * @copyright  Copyright (c) 2013, Justin Tadlock
+ * @link       http://themehybrid.com/themes/picturesque
+ * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 /* Load the core theme framework. */
@@ -47,14 +47,12 @@ function picturesque_theme_setup() {
 	$prefix = hybrid_get_prefix();
 
 	/* Add theme support for core framework features. */
-	add_theme_support( 'hybrid-core-menus', array( 'primary', 'subsidiary' ) );
+	add_theme_support( 'hybrid-core-menus', array( 'primary' ) );
 	add_theme_support( 'hybrid-core-sidebars', array( 'primary' ) );
 	add_theme_support( 'hybrid-core-widgets' );
 	add_theme_support( 'hybrid-core-shortcodes' );
 	add_theme_support( 'hybrid-core-theme-settings', array( 'about', 'footer' ) );
-	//add_theme_support( 'hybrid-core-drop-downs' );
 	add_theme_support( 'hybrid-core-template-hierarchy' );
-	//add_theme_support( 'hybrid-core-seo' );
 	add_theme_support( 'hybrid-core-scripts', array( 'comment-reply' ) );
 	add_theme_support( 'hybrid-core-styles', array( '25px', 'gallery', 'parent', 'style' ) );
 
@@ -66,11 +64,109 @@ function picturesque_theme_setup() {
 	);
 
 	add_theme_support( 'post-stylesheets' );
-	add_theme_support( 'dev-stylesheet' );
 	add_theme_support( 'loop-pagination' );
 	add_theme_support( 'get-the-image' );
 	add_theme_support( 'breadcrumb-trail' );
 	add_theme_support( 'cleaner-gallery' );
+
+	add_theme_support( 
+		'color-palette',
+		array(
+			'primary' => array(
+				'default'    => 'cb5700',
+				'label'      => __( 'Primary', 'chun' ),
+				'properties' => array( 
+					'color' => array(
+						'a', 
+						'pre', 
+						'code', 
+						'.breadcrumb-trail a', 
+						'.format-link .entry-title a .meta-nav', 
+						'#respond label .required', 
+						'#footer a:hover'
+					),
+					'background-color' => array(
+						'#site-title a',
+						'li.comment .comment-reply-link',
+					),
+					'border-top-color' => array( 
+						'body' 
+					),
+					'border-bottom-color' => array( 
+						'.breaadcrumb-trail a:hover',
+						'.sticky.hentry', 
+						'.loop-meta', 
+						'.page-template-portfolio .hentry.page'
+					),
+				)
+			),
+			'secondary' => array(
+				'default'    => '050505',
+				'label'      => __( 'Secondary', 'chun' ),
+				'properties' => array( 
+					'color' => array( 
+						'.entry-title', 
+						'.entry-title a',
+						'.loop-title', 
+						'#site-description', 
+						'#menu-portfolio li.current-cat a', 
+						'#menu-portfolio li.current-menu-item a', 
+						'.page-numbers.current'
+					),
+					'background-color' => array(
+						'.breadcrumb-trail',
+						'li.comment .comment-reply-link:hover',
+						'#footer'
+					),
+					'border-top-color' => array(
+						'.hentry',
+						'.loop-meta',
+						'.attachment-meta',
+						'#comments-template',
+						'.page-template-portfolio .hentry.page'
+					),
+					'border-bottom-color' => array(
+						'body' 
+					),
+				)
+			),
+			'menu_primary_1' => array(
+				'default'    => '00393e',
+				'label'      => __( 'Primary Menu 1st', 'chun' ),
+				'properties' => array( 
+					'color' => array( 
+						'#menu-primary li a' 
+					),
+					'background-color' => array(
+						'#menu-primary li li a:hover',
+						'#menu-primary li li:hover > a'
+					),
+				)
+			),
+			'menu_primary_2' => array(
+				'default'    => '00666f',
+				'label'      => __( 'Primary Menu 2nd', 'chun' ),
+				'properties' => array( 
+					'color' => array( 
+						'#menu-primary li a:hover',
+						'#menu-primary li:hover > a',
+						'#menu-primary li.current-menu-item > a',
+					),
+					'background-color' => array(
+						'#menu-primary li li a',
+					),
+					'border-bottom-color' => array(
+						'#menu-primary-items ul li:first-child > a::after'
+					),
+					'border-right-color' => array(
+						'#menu-primary-items ul ul li:first-child a::after'
+					),
+				)
+			),
+		)
+	);
+
+	require_once( trailingslashit( get_template_directory() ) . 'color-palette.php' );
 
 	/* Add theme support for WordPress features. */
 	add_theme_support( 'automatic-feed-links' );
@@ -84,6 +180,7 @@ function picturesque_theme_setup() {
 	add_theme_support( 
 		'custom-background',
 		array(
+			//'default-color' => '050505',
 			//'default-image' => trailingslashit( get_template_directory_uri() ) . 'images/bg.png',
 			'wp-head-callback' => 'picturesque_custom_background_callback'
 		)
@@ -116,20 +213,48 @@ function picturesque_theme_setup() {
 	add_filter( 'previous_comments_link_attributes', 'picturesque_previous_comments_link_attributes' );
 	add_filter( 'next_comments_link_attributes', 'picturesque_next_comments_link_attributes' );
 
-	/* Wraps <blockquote> around quote posts. */
-	add_filter( 'the_content', 'picturesque_quote_content' );
-
-	/* Adds the featured image to image posts if no content is found. */
-	add_filter( 'the_content', 'picturesque_image_content' );
-
 	/* Add infinity symbol to aside posts. */
 	add_filter( 'the_content', 'picturesque_post_format_tools_aside_infinity', 9 ); // run before wpautop
 
 	add_action( 'init', 'chun_register_image_sizes' );
+	add_action( 'init', 'chun_register_menus', 11 );
+
+	add_filter( 'embed_handler_html', 'chun_embed_html' );
+	add_filter( 'embed_oembed_html',  'chun_embed_html' );
 
 	/* Testing out some early Hybrid Core 1.6 proposed HTML changes. */
 	add_filter( "{$prefix}_sidebar_defaults", 'chun_sidebar_defaults' );
 	add_filter( 'cleaner_gallery_defaults',   'chun_gallery_defaults' );
+}
+
+add_filter( 'hybrid_context', 'agag' );
+
+function agag( $context ) {
+
+	if ( is_front_page() )
+		$context[] = 'aaafff';
+
+	return $context;
+}
+
+add_filter( 'color_palette_js_do_not_overwrite', 'chun_save_my_colors', 10, 3 );
+
+function chun_save_my_colors( $element, $name, $property ) {
+
+	if ( 'color' === $property && 'primary' === $name )
+		$element = '#site-title a, .menu a, .entry-title a';
+	elseif ( 'color' === $property && 'menu_primary_1' === $name )
+		$element = '#menu-primary li .sub-menu li a, #menu-primary li.current-menu-item li a, #menu-primary li li.current-menu-item > a';
+
+	return $element;
+}
+
+
+
+function chun_register_menus() {
+
+	if ( post_type_exists( 'portfolio_item' ) )
+		register_nav_menu( 'portfolio', esc_html__( 'Portfolio', 'chun' ) );
 }
 
 
@@ -144,8 +269,6 @@ function chun_register_image_sizes() {
 		add_image_size( 'portfolio-large', 650, 488, true );
 }
 
-add_filter( 'embed_handler_html', 'chun_embed_html' );
-add_filter( 'embed_oembed_html',  'chun_embed_html' );
 
 function chun_embed_html( $html ) {
 
@@ -184,85 +307,35 @@ function chun_embed_html( $html ) {
 		return $defaults;
 	}
 
+	/**
+	 * Adds an infinity character "&#8734;" to the end of the post content on 'aside' posts.
+	 *
+	 * @since 0.1.1
+	 * @access public
+	 * @param string $content The post content.
+	 * @return string $content
+	 */
+	function picturesque_post_format_tools_aside_infinity( $content ) {
+
+		if ( has_post_format( 'aside' ) && !is_singular() )
+			$content .= ' <a class="permalink" href="' . get_permalink() . '" title="' . the_title_attribute( array( 'echo' => false ) ) . '">&#8734;</a>';
+
+		return $content;
+	}
+
 /* End Hybrid Core 1.6 section. */
 
-/**
- * Adds an infinity character "&#8734;" to the end of the post content on 'aside' posts.
- *
- * @since 0.1.1
- * @access public
- * @param string $content The post content.
- * @return string $content
- */
-function picturesque_post_format_tools_aside_infinity( $content ) {
+function chun_get_portfolio_item_link() {
 
-	if ( has_post_format( 'aside' ) && !is_singular() )
-		$content .= ' <a class="permalink" href="' . get_permalink() . '" title="' . the_title_attribute( array( 'echo' => false ) ) . '">&#8734;</a>';
+	$url = get_post_meta( get_the_ID(), '_portfolio_item_url', true );
 
-	return $content;
+	if ( !empty( $url ) )
+		return '<a href="' . esc_url( $url ) . '">' . __( 'Project <abbr title="Uniform Resource Locator">URL</abbr>', 'chun' ) . '</a>';
 }
 
-/**
- * Sets the number of columns to show on image and gallery post format archives pages based on the 
- * layout that is currently being used.
- *
- * @since 0.1.0
- * @param int $columns Number of gallery columns to display.
- * @return int $columns
- */
-function picturesque_archive_gallery_columns( $columns ) {
 
-	/* Only run the code if the theme supports the 'theme-layouts' feature. */
-	if ( current_theme_supports( 'theme-layouts' ) ) {
 
-		/* Get the current theme layout. */
-		$layout = theme_layouts_get_layout();
 
-		if ( 'layout-1c' == $layout )
-			$columns = 5;
-	}
-
-	return $columns;
-}
-
-/**
- * Wraps the output of the quote post format content in a <blockquote> element if the user hasn't added a 
- * <blockquote> in the post editor.
- *
- * @since 0.1.0
- * @param string $content The post content.
- * @return string $content
- */
-function picturesque_quote_content( $content ) {
-
-	if ( has_post_format( 'quote' ) ) {
-		preg_match( '/<blockquote.*?>/', $content, $matches );
-
-		if ( empty( $matches ) )
-			$content = "<blockquote>{$content}</blockquote>";
-	}
-
-	return $content;
-}
-
-/**
- * Returns the featured image for the image post format if the user didn't add any content to the post.
- *
- * @since 0.1.0
- * @param string $content The post content.
- * @return string $content
- */
-function picturesque_image_content( $content ) {
-
-	if ( has_post_format( 'image' ) && '' == $content ) {
-		if ( is_singular() )
-			$content = get_the_image( array( 'size' => 'full', 'meta_key' => false, 'link_to_post' => false ) );
-		else
-			$content = get_the_image( array( 'size' => 'full', 'meta_key' => false ) );
-	}
-
-	return $content;
-}
 
 /**
  * Function for deciding which pages should have a one-column layout.
@@ -303,10 +376,8 @@ function picturesque_disable_sidebars( $sidebars_widgets ) {
 
 	if ( current_theme_supports( 'theme-layouts' ) && !is_admin() ) {
 
-		if ( 'layout-1c' == theme_layouts_get_layout() ) {
+		if ( 'layout-1c' == theme_layouts_get_layout() )
 			$sidebars_widgets['primary'] = false;
-			$sidebars_widgets['secondary'] = false;
-		}
 	}
 
 	return $sidebars_widgets;
@@ -356,16 +427,7 @@ function picturesque_next_comments_link_attributes( $attributes ) {
 	return $attributes . ' class="next"';
 }
 
-/**
- * Returns the number of images attached to the current post in the loop.
- *
- * @since 0.1.0
- * @return int
- */
-function picturesque_get_image_attachment_count() {
-	$images = get_children( array( 'post_parent' => get_the_ID(), 'post_type' => 'attachment', 'post_mime_type' => 'image', 'numberposts' => -1 ) );
-	return count( $images );
-}
+
 
 /**
  * Returns a set of image attachment links based on size.

@@ -1,9 +1,8 @@
 			</div><!-- .wrap -->
+
 		</div><!-- #main -->
 
 		<?php get_sidebar( 'primary' ); // Loads the sidebar-primary.php template. ?>
-
-		<?php get_template_part( 'menu', 'subsidiary' ); // Loads the menu-subsidiary.php template. ?>
 
 		<footer id="footer">
 

@@ -1,20 +1,3 @@
-<?php
-/**
- * Loop Nav Template
- *
- * This template is used to show your your next/previous post links on singular pages and
- * the next/previous posts links on the home/posts page and archive pages.
- *
- * @package Picturesque
- * @subpackage Template
- * @since 0.1.0
- * @author Justin Tadlock <justin@justintadlock.com>
- * @copyright Copyright (c) 2012, Justin Tadlock
- * @link http://themehybrid.com/themes/picturesque
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-?>
-
 	<?php if ( is_attachment() ) : ?>
 
 		<div class="loop-nav">

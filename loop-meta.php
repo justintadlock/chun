@@ -1,20 +1,3 @@
-<?php
-/**
- * Loop Meta Template
- *
- * Displays information at the top of the page about archive and search results when viewing those pages.  
- * This is not shown on the front page or singular views.
- *
- * @package Picturesque
- * @subpackage Template
- * @since 0.1.0
- * @author Justin Tadlock <justin@justintadlock.com>
- * @copyright Copyright (c) 2012, Justin Tadlock
- * @link http://themehybrid.com/themes/picturesque
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-?>
-
 	<?php if ( is_home() && !is_front_page() ) : ?>
 
 		<div class="loop-meta">
@@ -22,7 +5,7 @@
 			<h1 class="loop-title"><?php echo get_post_field( 'post_title', get_queried_object_id() ); ?></h1>
 
 			<div class="loop-description">
-				<?php echo apply_filters( 'the_excerpt', get_post_field( 'post_excerpt', get_queried_object_id() ) ); ?>
+				<?php echo apply_filters( 'the_content', get_post_field( 'post_content', get_queried_object_id() ) ); ?>
 			</div><!-- .loop-description -->
 
 		</div><!-- .loop-meta -->
