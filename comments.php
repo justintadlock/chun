@@ -11,13 +11,13 @@ if ( post_password_required() || ( !have_comments() && !comments_open() && !ping
 
 		<?php if ( have_comments() ) : ?>
 
-			<h3 id="comments-number" class="comments-header"><?php comments_number( __( 'No Responses', 'picturesque' ), __( 'One Response', 'picturesque' ), __( '% Responses', 'picturesque' ) ); ?></h3>
+			<h3 id="comments-number" class="comments-header"><?php comments_number( __( 'No Responses', 'chun' ), __( 'One Response', 'chun' ), __( '% Responses', 'chun' ) ); ?></h3>
 
 			<?php if ( get_option( 'page_comments' ) ) : ?>
 				<div class="comments-nav">
-					<?php previous_comments_link( __( '&larr; Previous', 'picturesque' ) ); ?>
-					<span class="page-numbers"><?php printf( __( 'Page %1$s of %2$s', 'picturesque' ), ( get_query_var( 'cpage' ) ? absint( get_query_var( 'cpage' ) ) : 1 ), get_comment_pages_count() ); ?></span>
-					<?php next_comments_link( __( 'Next &rarr;', 'picturesque' ) ); ?>
+					<?php previous_comments_link( __( '&larr; Previous', 'chun' ) ); ?>
+					<span class="page-numbers"><?php printf( __( 'Page %1$s of %2$s', 'chun' ), ( get_query_var( 'cpage' ) ? absint( get_query_var( 'cpage' ) ) : 1 ), get_comment_pages_count() ); ?></span>
+					<?php next_comments_link( __( 'Next &rarr;', 'chun' ) ); ?>
 				</div><!-- .comments-nav -->
 			<?php endif; ?>
 
@@ -30,13 +30,13 @@ if ( post_password_required() || ( !have_comments() && !comments_open() && !ping
 		<?php if ( pings_open() && !comments_open() ) : ?>
 
 			<p class="comments-closed pings-open">
-				<?php printf( __( 'Comments are closed, but <a href="%s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'picturesque' ), esc_url( get_trackback_url() ) ); ?>
+				<?php printf( __( 'Comments are closed, but <a href="%s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'chun' ), esc_url( get_trackback_url() ) ); ?>
 			</p><!-- .comments-closed .pings-open -->
 
 		<?php elseif ( !comments_open() ) : ?>
 
 			<p class="comments-closed">
-				<?php _e( 'Comments are closed.', 'picturesque' ); ?>
+				<?php _e( 'Comments are closed.', 'chun' ); ?>
 			</p><!-- .comments-closed -->
 
 		<?php endif; ?>

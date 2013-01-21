@@ -9,16 +9,16 @@ get_header(); // Loads the header.php template. ?>
 			<article id="post-0" class="<?php hybrid_entry_class(); ?>">
 
 				<header class="entry-header">
-					<h1 class="entry-title"><?php _e( 'Whoah! You broke something!', 'picturesque' ); ?></h1>
+					<h1 class="entry-title"><?php _e( 'Whoah! You broke something!', 'chun' ); ?></h1>
 				</header><!-- .entry-header -->
 
 				<div class="entry-content">
 
 					<p>
-						<?php printf( __( "Just kidding! You tried going to %s, which doesn't exist, so that means I probably broke something.", 'picturesque' ), '<code>' . home_url( esc_url( $_SERVER['REQUEST_URI'] ) ) . '</code>' ); ?>
+						<?php printf( __( "Just kidding! You tried going to %s, which doesn't exist, so that means I probably broke something.", 'chun' ), '<code>' . home_url( esc_url( $_SERVER['REQUEST_URI'] ) ) . '</code>' ); ?>
 					</p>
 					<p>
-						<?php _e( "The following is a list of the latest posts from the blog. Maybe it will help you find what you're looking for.", 'picturesque' ); ?>
+						<?php _e( "The following is a list of the latest posts from the blog. Maybe it will help you find what you're looking for.", 'chun' ); ?>
 					</p>
 
 					<ul>

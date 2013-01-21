@@ -70,7 +70,7 @@
 
 			<div class="loop-description">
 				<p>
-				<?php printf( __( 'You are browsing the search results for "%s"', 'picturesque' ), esc_attr( get_search_query() ) ); ?>
+				<?php printf( __( 'You are browsing the search results for "%s"', 'chun' ), esc_attr( get_search_query() ) ); ?>
 				</p>
 			</div><!-- .loop-description -->
 
@@ -96,11 +96,11 @@
 
 		<?php
 		if ( is_day() )
-			$date = get_the_time( __( 'F d, Y', 'picturesque' ) );
+			$date = get_the_time( __( 'F d, Y', 'chun' ) );
 		elseif ( is_month() )
-			$date = get_the_time( __( 'F Y', 'picturesque' ) );
+			$date = get_the_time( __( 'F Y', 'chun' ) );
 		elseif ( is_year() )
-			$date = get_the_time( __( 'Y', 'picturesque' ) );
+			$date = get_the_time( __( 'Y', 'chun' ) );
 		?>
 
 		<div class="loop-meta">
@@ -108,7 +108,7 @@
 			<h1 class="loop-title"><?php echo $date; ?></h1>
 
 			<div class="loop-description">
-				<?php echo wpautop( sprintf( __( 'You are browsing the site archives for %s.', 'picturesque' ), $date ) ); ?>
+				<?php echo wpautop( sprintf( __( 'You are browsing the site archives for %s.', 'chun' ), $date ) ); ?>
 			</div>
 
 		</div>
@@ -117,11 +117,11 @@
 
 		<div class="loop-meta">
 
-			<h1 class="loop-title"><?php _e( 'Archives', 'picturesque' ); ?></h1>
+			<h1 class="loop-title"><?php _e( 'Archives', 'chun' ); ?></h1>
 
 			<div class="loop-description">
 				<p>
-				<?php _e( 'You are browsing the site archives.', 'picturesque' ); ?>
+				<?php _e( 'You are browsing the site archives.', 'chun' ); ?>
 				</p>
 			</div><!-- .loop-description -->
 

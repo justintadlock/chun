@@ -18,13 +18,13 @@
  * You should have received a copy of the GNU General Public License along with this program; if not, write 
  * to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
- * @package    Picturesque
+ * @package    Chun
  * @subpackage Functions
  * @version    0.1.0
  * @since      0.1.0
  * @author     Justin Tadlock <justin@justintadlock.com>
  * @copyright  Copyright (c) 2013, Justin Tadlock
- * @link       http://themehybrid.com/themes/picturesque
+ * @link       http://themehybrid.com/themes/chun
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
@@ -33,7 +33,7 @@ require_once( trailingslashit( get_template_directory() ) . 'library/hybrid.php'
 new Hybrid();
 
 /* Do theme setup on the 'after_setup_theme' hook. */
-add_action( 'after_setup_theme', 'picturesque_theme_setup' );
+add_action( 'after_setup_theme', 'chun_theme_setup' );
 
 /**
  * Theme setup function.  This function adds support for theme features and defines the default theme
@@ -41,7 +41,7 @@ add_action( 'after_setup_theme', 'picturesque_theme_setup' );
  *
  * @since 0.1.0
  */
-function picturesque_theme_setup() {
+function chun_theme_setup() {
 
 	/* Get action/filter hook prefix. */
 	$prefix = hybrid_get_prefix();
@@ -51,7 +51,6 @@ function picturesque_theme_setup() {
 	add_theme_support( 'hybrid-core-sidebars', array( 'primary' ) );
 	add_theme_support( 'hybrid-core-widgets' );
 	add_theme_support( 'hybrid-core-shortcodes' );
-	add_theme_support( 'hybrid-core-theme-settings', array( 'about', 'footer' ) );
 	add_theme_support( 'hybrid-core-template-hierarchy' );
 	add_theme_support( 'hybrid-core-scripts', array( 'comment-reply' ) );
 	add_theme_support( 'hybrid-core-styles', array( '25px', 'gallery', 'parent', 'style' ) );
@@ -69,100 +68,29 @@ function picturesque_theme_setup() {
 	add_theme_support( 'breadcrumb-trail' );
 	add_theme_support( 'cleaner-gallery' );
 
+	add_theme_support(
+		'theme-stylesheets',
+		array(
+			'headlines' => array( 
+				'default'      => 'css/muli-regular.css',
+				'label'        => __( 'Headline Font', 'chun' ),
+				'file_header'  => 'Font Style' // don't translate
+			)
+		)
+	);
+
+	require_once( trailingslashit( get_template_directory() ) . 'inc/theme-stylesheets.php' );
+
 	add_theme_support( 
 		'color-palette',
 		array(
-			'primary' => array(
-				'default'    => 'cb5700',
-				'label'      => __( 'Primary', 'chun' ),
-				'properties' => array( 
-					'color' => array(
-						'a', 
-						'pre', 
-						'code', 
-						'.breadcrumb-trail a', 
-						'.format-link .entry-title a .meta-nav', 
-						'#respond label .required', 
-						'#footer a:hover'
-					),
-					'background-color' => array(
-						'#site-title a',
-						'li.comment .comment-reply-link',
-					),
-					'border-top-color' => array( 
-						'body' 
-					),
-					'border-bottom-color' => array( 
-						'.breaadcrumb-trail a:hover',
-						'.sticky.hentry', 
-						'.loop-meta', 
-						'.page-template-portfolio .hentry.page'
-					),
-				)
-			),
-			'secondary' => array(
-				'default'    => '050505',
-				'label'      => __( 'Secondary', 'chun' ),
-				'properties' => array( 
-					'color' => array( 
-						'.entry-title', 
-						'.entry-title a',
-						'.loop-title', 
-						'#site-description', 
-						'#menu-portfolio li.current-cat a', 
-						'#menu-portfolio li.current-menu-item a', 
-						'.page-numbers.current'
-					),
-					'background-color' => array(
-						'.breadcrumb-trail',
-						'li.comment .comment-reply-link:hover',
-						'#footer'
-					),
-					'border-top-color' => array(
-						'.hentry',
-						'.loop-meta',
-						'.attachment-meta',
-						'#comments-template',
-						'.page-template-portfolio .hentry.page'
-					),
-					'border-bottom-color' => array(
-						'body' 
-					),
-				)
-			),
-			'menu_primary_1' => array(
-				'default'    => '00393e',
-				'label'      => __( 'Primary Menu 1st', 'chun' ),
-				'properties' => array( 
-					'color' => array( 
-						'#menu-primary li a' 
-					),
-					'background-color' => array(
-						'#menu-primary li li a:hover',
-						'#menu-primary li li:hover > a'
-					),
-				)
-			),
-			'menu_primary_2' => array(
-				'default'    => '00666f',
-				'label'      => __( 'Primary Menu 2nd', 'chun' ),
-				'properties' => array( 
-					'color' => array( 
-						'#menu-primary li a:hover',
-						'#menu-primary li:hover > a',
-						'#menu-primary li.current-menu-item > a',
-					),
-					'background-color' => array(
-						'#menu-primary li li a',
-					),
-					'border-bottom-color' => array(
-						'#menu-primary-items ul li:first-child > a::after'
-					),
-					'border-right-color' => array(
-						'#menu-primary-items ul ul li:first-child a::after'
-					),
-				)
-			),
+			'primary'        => array( 'default' => 'cb5700', 'label' => __( 'Primary Color', 'chun' ) ),
+			'secondary'      => array( 'default' => '050505', 'label' => __( 'Secondary Color', 'chun' ) ),
+			'menu_primary_1' => array( 'default' => '00393e', 'label' => __( 'Primary Menu Color #1', 'chun' ) ),
+			'menu_primary_2' => array( 'default' => '00666f', 'label' => __( 'Primary Menu Color #2', 'chun' ) ),
+		),
+		array(
+			'callback' => 'chun_custom_color_definitions',
 		)
 	);
 
@@ -173,8 +101,9 @@ function picturesque_theme_setup() {
 
 	add_theme_support( 
 		'post-formats', 
-		array( 'aside', 'chat', 'image', 'gallery', 'quote' ) 
+		array( 'aside', 'audio', 'chat', 'image', 'gallery', 'link', 'quote', 'status', 'video' ) 
 	);
+
 
 	/* Add support for WordPress custom background. */
 	add_theme_support( 
@@ -182,7 +111,7 @@ function picturesque_theme_setup() {
 		array(
 			//'default-color' => '050505',
 			//'default-image' => trailingslashit( get_template_directory_uri() ) . 'images/bg.png',
-			'wp-head-callback' => 'picturesque_custom_background_callback'
+			'wp-head-callback' => 'chun_custom_background_callback'
 		)
 	);
 
@@ -200,21 +129,22 @@ function picturesque_theme_setup() {
 	);
 
 	/* Embed width/height defaults. */
-	add_filter( 'embed_defaults', 'picturesque_embed_defaults' );
+	add_filter( 'embed_defaults', 'chun_embed_defaults' );
 
 	/* Set content width. */
 	hybrid_set_content_width( 650 );
 
 	/* Filter the sidebar widgets. */
-	add_filter( 'sidebars_widgets', 'picturesque_disable_sidebars' );
-	add_action( 'template_redirect', 'picturesque_one_column' );
+	add_filter( 'sidebars_widgets', 'chun_disable_sidebars' );
+	add_action( 'wp', 'chun_one_column' );
+	//add_action( 'customize_preview_init', 'chun_one_column' );
 
 	/* Add classes to the comments pagination. */
-	add_filter( 'previous_comments_link_attributes', 'picturesque_previous_comments_link_attributes' );
-	add_filter( 'next_comments_link_attributes', 'picturesque_next_comments_link_attributes' );
+	add_filter( 'previous_comments_link_attributes', 'chun_previous_comments_link_attributes' );
+	add_filter( 'next_comments_link_attributes', 'chun_next_comments_link_attributes' );
 
 	/* Add infinity symbol to aside posts. */
-	add_filter( 'the_content', 'picturesque_post_format_tools_aside_infinity', 9 ); // run before wpautop
+	add_filter( 'the_content', 'chun_post_format_tools_aside_infinity', 9 ); // run before wpautop
 
 	add_action( 'init', 'chun_register_image_sizes' );
 	add_action( 'init', 'chun_register_menus', 11 );
@@ -227,14 +157,88 @@ function picturesque_theme_setup() {
 	add_filter( 'cleaner_gallery_defaults',   'chun_gallery_defaults' );
 }
 
-add_filter( 'hybrid_context', 'agag' );
+function chun_custom_color_definitions( $colors = array() ) {
 
-function agag( $context ) {
 
-	if ( is_front_page() )
-		$context[] = 'aaafff';
+	$colors = array(
+		'primary' => array(
+			'color' => array(
+				'a', 
+				'pre', 
+				'code', 
+				'.breadcrumb-trail a', 
+				'.format-link .entry-title a .meta-nav', 
+				'#respond label .required', 
+				'#footer a:hover'
+			),
+			'background-color' => array(
+				'#branding',
+				'li.comment .comment-reply-link',
+			),
+			'border-top-color' => array( 
+				'body' 
+			),
+			'border-bottom-color' => array( 
+				'.breaadcrumb-trail a:hover',
+				'.sticky.hentry', 
+				'.loop-meta', 
+				'.page-template-portfolio .hentry.page'
+			),
+		),
+		'secondary' => array(
+			'color' => array( 
+				'#site-title a',
+				'.entry-title', 
+				'.entry-title a',
+				'.loop-title', 
+				'#menu-portfolio li.current-cat a', 
+				'#menu-portfolio li.current-menu-item a', 
+				'.page-numbers.current'
+			),
+			'background-color' => array(
+				'.breadcrumb-trail',
+				'li.comment .comment-reply-link:hover',
+				'#footer'
+			),
+			'border-top-color' => array(
+				'.hentry',
+				'.loop-meta',
+				'.attachment-meta',
+				'#comments-template',
+				'.page-template-portfolio .hentry.page'
+			),
+			'border-bottom-color' => array(
+				'body' 
+			)
+		),
+		'menu_primary_1' => array(
+			'color' => array( 
+				'#menu-primary li a' 
+			),
+			'background-color' => array(
+				'#menu-primary li li a:hover',
+				'#menu-primary li li:hover > a'
+			)
+		),
+		'menu_primary_2' => array(
+			'color' => array( 
+				'#menu-primary li a:hover',
+				'#menu-primary li:hover > a',
+				'#menu-primary li.current-menu-item > a',
+			),
+			'background-color' => array(
+				'#menu-primary li li a',
+			),
+			'border-bottom-color' => array(
+				'#menu-primary-items ul li:first-child > a::after'
+			),
+			'border-right-color' => array(
+				'#menu-primary-items ul ul li:first-child a::after'
+			),
+		),
+	);
 
-	return $context;
+	return $colors;
 }
 
 add_filter( 'color_palette_js_do_not_overwrite', 'chun_save_my_colors', 10, 3 );
@@ -308,14 +312,15 @@ function chun_embed_html( $html ) {
 	}
 
 	/**
-	 * Adds an infinity character "&#8734;" to the end of the post content on 'aside' posts.
+	 * Adds an infinity character "&#8734;" to the end of the post content on 'aside' posts.  This 
+	 * is from version 0.1.1 of the Post Format Tools extension.
 	 *
 	 * @since 0.1.1
 	 * @access public
 	 * @param string $content The post content.
 	 * @return string $content
 	 */
-	function picturesque_post_format_tools_aside_infinity( $content ) {
+	function chun_post_format_tools_aside_infinity( $content ) {
 
 		if ( has_post_format( 'aside' ) && !is_singular() )
 			$content .= ' <a class="permalink" href="' . get_permalink() . '" title="' . the_title_attribute( array( 'echo' => false ) ) . '">&#8734;</a>';
@@ -342,16 +347,16 @@ function chun_get_portfolio_item_link() {
  *
  * @since 0.1.0
  */
-function picturesque_one_column() {
+function chun_one_column() {
 
 	if ( !is_active_sidebar( 'primary' ) && !is_active_sidebar( 'secondary' ) )
-		add_filter( 'get_theme_layout', 'picturesque_theme_layout_one_column' );
+		add_filter( 'theme_mod_theme_layout', 'chun_theme_layout_one_column' );
 
 	elseif ( is_attachment() && wp_attachment_is_image() && 'default' == get_post_layout( get_queried_object_id() ) )
-		add_filter( 'get_theme_layout', 'picturesque_theme_layout_one_column' );
+		add_filter( 'theme_mod_theme_layout', 'chun_theme_layout_one_column' );
 
 	elseif ( is_post_type_archive( 'portfolio_item' ) || is_tax( 'portfolio' ) )
-		add_filter( 'get_theme_layout', 'picturesque_theme_layout_one_column' );
+		add_filter( 'theme_mod_theme_layout', 'chun_theme_layout_one_column' );
 }
 
 /**
@@ -361,8 +366,8 @@ function picturesque_one_column() {
  * @param string $layout The layout of the current page.
  * @return string
  */
-function picturesque_theme_layout_one_column( $layout ) {
-	return 'layout-1c';
+function chun_theme_layout_one_column( $layout ) {
+	return '1c';
 }
 
 /**
@@ -372,13 +377,13 @@ function picturesque_theme_layout_one_column( $layout ) {
  * @param array $sidebars_widgets A multidimensional array of sidebars and widgets.
  * @return array $sidebars_widgets
  */
-function picturesque_disable_sidebars( $sidebars_widgets ) {
+function chun_disable_sidebars( $sidebars_widgets ) {
+	global $wp_customize;
 
-	if ( current_theme_supports( 'theme-layouts' ) && !is_admin() ) {
+	$customize = ( is_object( $wp_customize ) && true === $wp_customize->is_preview() ) ? true : false;
 
-		if ( 'layout-1c' == theme_layouts_get_layout() )
-			$sidebars_widgets['primary'] = false;
-	}
+	if ( !is_admin() && !$customize && '1c' == get_theme_mod( 'theme_layout' ) )
+		$sidebars_widgets['primary'] = false;
 
 	return $sidebars_widgets;
 }
@@ -390,7 +395,7 @@ function picturesque_disable_sidebars( $sidebars_widgets ) {
  *
  * @since 0.1.0
  */
-function picturesque_embed_defaults( $args ) {
+function chun_embed_defaults( $args ) {
 
 	$args['width'] = hybrid_get_content_width();
 
@@ -412,7 +417,7 @@ function picturesque_embed_defaults( $args ) {
  * @param string $attributes The previous comments link attributes.
  * @return string
  */
-function picturesque_previous_comments_link_attributes( $attributes ) {
+function chun_previous_comments_link_attributes( $attributes ) {
 	return $attributes . ' class="prev"';
 }
 
@@ -423,7 +428,7 @@ function picturesque_previous_comments_link_attributes( $attributes ) {
  * @param string $attributes The next comments link attributes.
  * @return string
  */
-function picturesque_next_comments_link_attributes( $attributes ) {
+function chun_next_comments_link_attributes( $attributes ) {
 	return $attributes . ' class="next"';
 }
 
@@ -435,7 +440,7 @@ function picturesque_next_comments_link_attributes( $attributes ) {
  * @since 0.1.0
  * @return string Links to various image sizes for the image attachment.
  */
-function picturesque_get_image_size_links() {
+function chun_get_image_size_links() {
 
 	/* If not viewing an image attachment page, return. */
 	if ( !wp_attachment_is_image( get_the_ID() ) )
@@ -471,7 +476,7 @@ function picturesque_get_image_size_links() {
  * @since 0.1.0
  * @link http://core.trac.wordpress.org/ticket/16919
  */
-function picturesque_custom_background_callback() {
+function chun_custom_background_callback() {
 
 	/* Get the background image. */
 	$image = get_background_image();
@@ -507,7 +512,7 @@ function picturesque_custom_background_callback() {
  *
  * @since 0.1.0
  */
-function picturesque_image_info() {
+function chun_image_info() {
 
 	/* Set up some default variables and get the image metadata. */
 	$meta = wp_get_attachment_metadata( get_the_ID() );
@@ -515,27 +520,27 @@ function picturesque_image_info() {
 	$list = '';
 
 	/* Add the width/height to the $items array. */
-	$items['dimensions'] = sprintf( __( '<span class="prep">Dimensions:</span> %s', 'picturesque' ), '<span class="image-data"><a href="' . esc_url( wp_get_attachment_url() ) . '">' . sprintf( __( '%1$s &#215; %2$s pixels', 'picturesque' ), $meta['width'], $meta['height'] ) . '</a></span>' );
+	$items['dimensions'] = sprintf( __( '<span class="prep">Dimensions:</span> %s', 'chun' ), '<span class="image-data"><a href="' . esc_url( wp_get_attachment_url() ) . '">' . sprintf( __( '%1$s &#215; %2$s pixels', 'chun' ), $meta['width'], $meta['height'] ) . '</a></span>' );
 
 	/* If a timestamp exists, add it to the $items array. */
 	if ( !empty( $meta['image_meta']['created_timestamp'] ) )
-		$items['created_timestamp'] = sprintf( __( '<span class="prep">Date:</span> %s', 'picturesque' ), '<span class="image-data">' . date( get_option( 'date_format' ), $meta['image_meta']['created_timestamp'] ) . '</span>' );
+		$items['created_timestamp'] = sprintf( __( '<span class="prep">Date:</span> %s', 'chun' ), '<span class="image-data">' . date( get_option( 'date_format' ), $meta['image_meta']['created_timestamp'] ) . '</span>' );
 
 	/* If a camera exists, add it to the $items array. */
 	if ( !empty( $meta['image_meta']['camera'] ) )
-		$items['camera'] = sprintf( __( '<span class="prep">Camera:</span> %s', 'picturesque' ), '<span class="image-data">' . $meta['image_meta']['camera'] . '</span>' );
+		$items['camera'] = sprintf( __( '<span class="prep">Camera:</span> %s', 'chun' ), '<span class="image-data">' . $meta['image_meta']['camera'] . '</span>' );
 
 	/* If an aperture exists, add it to the $items array. */
 	if ( !empty( $meta['image_meta']['aperture'] ) )
-		$items['aperture'] = sprintf( __( '<span class="prep">Aperture:</span> %s', 'picturesque' ), '<span class="image-data">' . sprintf( __( 'f/%s', 'picturesque' ), $meta['image_meta']['aperture'] ) . '</span>' );
+		$items['aperture'] = sprintf( __( '<span class="prep">Aperture:</span> %s', 'chun' ), '<span class="image-data">' . sprintf( __( 'f/%s', 'chun' ), $meta['image_meta']['aperture'] ) . '</span>' );
 
 	/* If a focal length is set, add it to the $items array. */
 	if ( !empty( $meta['image_meta']['focal_length'] ) )
-		$items['focal_length'] = sprintf( __( '<span class="prep">Focal Length:</span> %s', 'picturesque' ), '<span class="image-data">' . sprintf( __( '%s mm', 'picturesque' ), $meta['image_meta']['focal_length'] ) . '</span>' );
+		$items['focal_length'] = sprintf( __( '<span class="prep">Focal Length:</span> %s', 'chun' ), '<span class="image-data">' . sprintf( __( '%s mm', 'chun' ), $meta['image_meta']['focal_length'] ) . '</span>' );
 
 	/* If an ISO is set, add it to the $items array. */
 	if ( !empty( $meta['image_meta']['iso'] ) )
-		$items['iso'] = sprintf( __( '<span class="prep">ISO:</span> %s', 'picturesque' ), '<span class="image-data">' . $meta['image_meta']['iso'] . '</span>' );
+		$items['iso'] = sprintf( __( '<span class="prep">ISO:</span> %s', 'chun' ), '<span class="image-data">' . $meta['image_meta']['iso'] . '</span>' );
 
 	/* If a shutter speed is given, format the float into a fraction and add it to the $items array. */
 	if ( !empty( $meta['image_meta']['shutter_speed'] ) ) {
@@ -551,7 +556,7 @@ function picturesque_image_info() {
 			$shutter_speed = $meta['image_meta']['shutter_speed'];
 		}
 
-		$items['shutter_speed'] = sprintf( __( '<span class="prep">Shutter Speed:</span> %s', 'picturesque' ), '<span class="image-data">' . sprintf( __( '%s sec', 'picturesque' ), $shutter_speed ) . '</span>' );
+		$items['shutter_speed'] = sprintf( __( '<span class="prep">Shutter Speed:</span> %s', 'chun' ), '<span class="image-data">' . sprintf( __( '%s sec', 'chun' ), $shutter_speed ) . '</span>' );
 	}
 
 	/* Allow devs to overwrite the array of items. */
@@ -562,7 +567,7 @@ function picturesque_image_info() {
 		$list .= "<li>{$item}</li>";
 
 	/* Format the HTML output of the function. */
-	$output = '<div class="image-info"><h3>' . __( 'Image Info', 'picturesque' ) . '</h3><ul>' . $list . '</ul></div>';
+	$output = '<div class="image-info"><h3>' . __( 'Image Info', 'chun' ) . '</h3><ul>' . $list . '</ul></div>';
 
 	/* Display the image info and allow devs to overwrite the final output. */
 	echo apply_atomic( 'image_info', $output );

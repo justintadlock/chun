@@ -8,7 +8,7 @@
 
 		<div class="entry-content">
 			<?php the_content(); ?>
-			<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'picturesque' ) . '</span>', 'after' => '</p>' ) ); ?>
+			<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'chun' ) . '</span>', 'after' => '</p>' ) ); ?>
 		</div><!-- .entry-content -->
 
 		<footer class="entry-footer">
@@ -24,7 +24,7 @@
 		<div class="entry-summary">
 			<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'size' => 'post-thumbnail' ) ); ?>
 			<?php the_excerpt(); ?>
-			<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'picturesque' ) . '</span>', 'after' => '</p>' ) ); ?>
+			<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'chun' ) . '</span>', 'after' => '</p>' ) ); ?>
 		</div><!-- .entry-summary -->
 
 	<?php } ?>

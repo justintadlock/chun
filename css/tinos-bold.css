@@ -1,0 +1,33 @@
+/**
+ * Font Style: Tinos Bold
+ */
+
+
+@font-face {
+    font-family: 'TinosBold';
+    src: url('../fonts/tinos/Tinos-Bold-webfont.eot');
+    src: url('../fonts/tinos/Tinos-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/tinos/Tinos-Bold-webfont.woff') format('woff'),
+         url('../fonts/tinos/Tinos-Bold-webfont.ttf') format('truetype'),
+         url('../fonts/tinos/Tinos-Bold-webfont.svg#TinosBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6,
+th,
+#menu-primary li a,
+#menu-portfolio li a,
+.breadcrumb-trail,
+.page-links,
+.loop-pagination,
+.loop-nav,
+#respond input[type="submit"],
+#footer {
+	font-family: 'TinosBold';
+}

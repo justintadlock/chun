@@ -16,11 +16,11 @@
 
 		<div class="entry-content">
 			<?php the_content(); ?>
-			<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'picturesque' ) . '</span>', 'after' => '</p>' ) ); ?>
+			<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'chun' ) . '</span>', 'after' => '</p>' ) ); ?>
 		</div><!-- .entry-content -->
 
 		<footer class="entry-footer">
-			<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-published] [entry-edit-link before="| "]', 'picturesque' ) . '</div>' ); ?>
+			<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-published] [entry-edit-link before="| "]', 'chun' ) . '</div>' ); ?>
 		</footer><!-- .entry-footer -->
 
 	<?php } else { ?>
@@ -34,12 +34,12 @@
 
 			<?php if ( has_excerpt() ) {
 				the_excerpt();
-				wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'picturesque' ) . '</span>', 'after' => '</p>' ) );
+				wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'chun' ) . '</span>', 'after' => '</p>' ) );
 			} ?>
 		</div><!-- .entry-summary -->
 
 		<footer class="entry-footer">
-			<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-published] [entry-edit-link before="| "]', 'picturesque' ) . '</div>' ); ?>
+			<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-published] [entry-edit-link before="| "]', 'chun' ) . '</div>' ); ?>
 		</footer><!-- .entry-footer -->
 
 	<?php } ?>

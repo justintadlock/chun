@@ -5,7 +5,7 @@
 		</header>
 
 		<div class="entry-content">
-			<p><?php _e( 'Apologies, but no entries were found.', 'picturesque' ); ?></p>
+			<p><?php _e( 'Apologies, but no entries were found.', 'chun' ); ?></p>
 		</div><!-- .entry-content -->
 
 	</article><!-- .hentry .error -->

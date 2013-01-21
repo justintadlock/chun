@@ -6,12 +6,12 @@
  * to the comment type (comment.php, comment-{$comment_type}.php, comment-pingback.php, 
  * comment-trackback.php) in a child theme.
  *
- * @package Picturesque
+ * @package Chun
  * @subpackage Template
  * @since 0.1.0
  * @author Justin Tadlock <justin@justintadlock.com>
  * @copyright Copyright (c) 2012, Justin Tadlock
- * @link http://themehybrid.com/themes/picturesque
+ * @link http://themehybrid.com/themes/chun
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
@@ -20,7 +20,7 @@
 
 	<li id="comment-<?php comment_ID(); ?>" class="<?php hybrid_comment_class(); ?>">
 
-		<?php do_atomic( 'open_comment' ); // picturesque_open_comment ?>
+		<?php do_atomic( 'open_comment' ); // chun_open_comment ?>
 
 		<?php echo hybrid_avatar(); ?>
 
@@ -28,7 +28,7 @@
 
 		<div class="comment-content comment-text">
 			<?php if ( '0' == $comment->comment_approved ) : ?>
-				<?php echo apply_atomic_shortcode( 'comment_moderation', '<p class="alert moderation">' . __( 'Your comment is awaiting moderation.', 'picturesque' ) . '</p>' ); ?>
+				<?php echo apply_atomic_shortcode( 'comment_moderation', '<p class="alert moderation">' . __( 'Your comment is awaiting moderation.', 'chun' ) . '</p>' ); ?>
 			<?php endif; ?>
 
 			<?php comment_text( $comment->comment_ID ); ?>
@@ -36,6 +36,6 @@
 
 		<?php echo hybrid_comment_reply_link_shortcode( array() ); ?>
 
-		<?php do_atomic( 'close_comment' ); // picturesque_close_comment ?>
+		<?php do_atomic( 'close_comment' ); // chun_close_comment ?>
 
 	<?php /* No closing </li> is needed.  WordPress will know where to add it. */ ?>

@@ -2,9 +2,8 @@
 /**
  * Template Name: Portfolio
  */
-?>
 
-<?php get_header(); // Loads the header.php template. ?>
+get_header(); // Loads the header.php template. ?>
 
 	<div id="content">
 
@@ -24,7 +23,7 @@
 
 						<div class="entry-content">
 							<?php the_content(); ?>
-							<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'picturesque' ) . '</span>', 'after' => '</p>' ) ); ?>
+							<?php wp_link_pages( array( 'before' => '<p class="page-links">' . '<span class="before">' . __( 'Pages:', 'chun' ) . '</span>', 'after' => '</p>' ) ); ?>
 						</div><!-- .entry-content -->
 
 						<?php get_template_part( 'menu', 'portfolio' ); ?>

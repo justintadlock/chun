@@ -12,7 +12,7 @@
 
 						<header class="entry-header">
 							<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
-							<?php echo apply_atomic_shortcode( 'byline', '<div class="byline">' . sprintf( __( 'Sizes: %s', 'picturesque' ), picturesque_get_image_size_links() ) . '</div>' ); ?>
+							<?php echo apply_atomic_shortcode( 'byline', '<div class="byline">' . sprintf( __( 'Sizes: %s', 'chun' ), chun_get_image_size_links() ) . '</div>' ); ?>
 						</header><!-- .entry-header -->
 
 						<div class="entry-content">
@@ -24,8 +24,8 @@
 								echo wp_get_attachment_image( get_the_ID(), 'full', false, array( 'class' => 'aligncenter' ) );
 							} ?>
 
-							<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'picturesque' ) ); ?>
-							<?php wp_link_pages( array( 'before' => '<p class="page-links">' . __( 'Pages:', 'picturesque' ), 'after' => '</p>' ) ); ?>
+							<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'chun' ) ); ?>
+							<?php wp_link_pages( array( 'before' => '<p class="page-links">' . __( 'Pages:', 'chun' ), 'after' => '</p>' ) ); ?>
 
 						</div><!-- .entry-content -->
 
@@ -33,13 +33,13 @@
 
 					<div class="attachment-meta">
 
-						<?php picturesque_image_info(); ?>
+						<?php chun_image_info(); ?>
 
 						<?php $gallery = gallery_shortcode( array( 'columns' => 4, 'numberposts' => 8, 'id' => $post->post_parent, 'exclude' => get_the_ID() ) ); ?>
 
 						<?php if ( !empty( $gallery ) ) { ?>
 							<div class="image-gallery">
-								<h3><?php _e( 'Gallery', 'picturesque' ); ?></h3>
+								<h3><?php _e( 'Gallery', 'chun' ); ?></h3>
 								<?php echo $gallery; ?>
 							</div>
 						<?php } ?>

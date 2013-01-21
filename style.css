@@ -14,11 +14,10 @@
  * Custom Fonts
  * --------------------------------------------------------------------------- */
 
-
 /* === Muli Regular === */
 
+/**
 @font-face {
-    font-family: 'MuliRegular';
     src: url('fonts/muli/Muli-Regular-webfont.eot');
     src: url('fonts/muli/Muli-Regular-webfont.eot?#iefix') format('embedded-opentype'),
          url('fonts/muli/Muli-Regular-webfont.woff') format('woff'),
@@ -26,19 +25,21 @@
          url('fonts/muli/Muli-Regular-webfont.svg#MuliRegular') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
+/**/
 
 /**
  * Defaults
  *
  *	Font sizes are calculated based on a 16-pixel base.
  *	44 / 16   =   2.75rem
+ *	19 / 16   =   1.1875rem
  *	18 / 16   =   1.125rem
  *	17 / 16   =   1.0675rem
  *	16 / 16   =   1rem
  *	15 / 16   =   0.9375rem
  *	14 / 16   =   0.875rem
+ *	13 / 16   =   0.8125rem
  *
  * --------------------------------------------------------------------------- */
 
@@ -95,7 +96,7 @@ h3,
 h4, 
 h5, 
 h6 {
-	font-family: 'MuliRegular';
+	/**font-family: 'MuliRegular';/**/
 	font-weight: normal;
 }
 
@@ -137,11 +138,13 @@ code {
 }
 
 pre {
+	word-wrap:  normal;
 	padding:    25px;
 	color:      #cb5700;
 	background: #f5f5f5;
 	border:     1px solid #e5e5e5;
 }
+
 
 	pre code {
 		padding:   0;
@@ -418,16 +421,14 @@ a:hover .avatar {
  * --------------------------------------------------------------------------- */
 
 	#container {
-		width:  1100px;
-		margin: 0 auto;
+		width:     93.5%;
+		max-width: 1100px;
+		margin:    0 auto;
 	}
-
-		#menu-primary {
-			margin: 0 0 25px;
-		}
 
 		#container > .wrap {
 			width: 750px;
+			width: 68.18%;
 		}
 
 		.layout-1c #container > .wrap {
@@ -442,20 +443,25 @@ a:hover .avatar {
 			float: right;
 		}
 
-			#sidebar-primary {
-				float:  right;
-				width:  300px;
-				margin: 0 0 50px;
+			#menu-primary {
+				margin: 0 0 25px;
 			}
 
-			.layout-2c-r #sidebar-primary {
-				float: left;
-			}
+		#sidebar-primary {
+			float:  right;
+			width:  300px;
+			width:  27.27%;
+			margin: 0 0 50px;
+		}
 
-			/* Don't show on theme customizer. */
-			.layout-1c #sidebar-primary {
-				display: none;
-			}
+		.layout-2c-r #sidebar-primary {
+			float: left;
+		}
+
+		/* Don't show on theme customizer. */
+		.layout-1c #sidebar-primary {
+			display: none;
+		}
 
 		#footer {
 			clear: both;
@@ -465,49 +471,47 @@ a:hover .avatar {
  * Header
  * --------------------------------------------------------------------------- */
 
-#branding {
+#header {
 	text-align: center;
 }
 
-	#site-title {
+	#branding {
 		display:    inline-block;
-		margin:     0 auto 5px;
-		font-size:  16px;
-		text-align: center;
+		margin:     0 0 25px;
+		padding:    5px 37px 10px;
+		background: #cb5700;
+		box-sizing: border-box;
 	}
 
-		#site-title a:link,
-		#site-title a:visited {
-			display:       inline-block;
-			padding:       5px 50px 10px;
-			color:         #f5f5f5;
-			/*background-color:    #cb5700;*/
-			box-sizing:    border-box;
+		#site-title {
+			margin:     0;
+			font-size:  1.0675rem;
+			font-size:  1.125rem;
+			font-size:  1.1875rem;
 		}
 
-			#site-title a:hover {
-				color:        #fff;
+			#site-title a:link,
+			#site-title a:visited {
+				display:       inline-block;
+				/*color:         #050505;*/
+				/*background-color:    #cb5700;*/
 			}
 
-	#site-description {
-		visibility:  hidden;
-		opacity:     0;
-		margin:      0 auto;
-		font-family: Georgia, Times, 'Times New Roman', serif;
-		font-size:   .875rem;
-		font-style:  italic;
-		text-align:  center;
-		color:       #050505;
+				#site-title a:hover {
+				/*color:         #050505;*/
+				}
 
-			-webkit-transition: all 0.5s ease-in-out;
-	}
+		#site-description {
+			margin:       0;
+			font-family:  Georgia, Times, 'Times New Roman', serif;
+			font-size:    0.8125rem;
+			font-size:    0.875rem;
+			font-variant: small-caps;
+			color:        #f5f5f5;
+			box-sizing:   border-box;
 
-	#branding:hover #site-description {
-		visibility: visible;
-		opacity:    1;
-
-			-webkit-transition: all 0.5s ease-in-out;
-	}
+				-webkit-transition: all 0.5s ease-in-out;
+		}
 
 /**
  * Menus
@@ -660,7 +664,7 @@ a:hover .avatar {
 				display:     inline-block;
 				margin:      0 5px;
 				padding:     7px 12px;
-				font-family: 'MuliRegular';
+				/**font-family: 'MuliRegular';/**/
 				font-size:   0.875rem;
 				background:  #f5f5f5;
 				border:      1px solid #e5e5e5;
@@ -686,9 +690,9 @@ a:hover .avatar {
 
 .breadcrumb-trail {
 	padding:     10px 50px 0;
-	font-family: 'MuliRegular';
+	/**font-family: 'MuliRegular';/**/
 	font-size:   0.875rem;
-	color:       #959595;
+	color:       #c5c5c5;
 	background:  #050505;
 	box-sizing:  border-box;
 	}
@@ -700,7 +704,7 @@ a:hover .avatar {
 	}
 
 	.breadcrumb-trail .trail-end {
-		color: #e5e5e5;
+		color: #f5f5f5;
 	}
 
 	.breadcrumb-trail a {
@@ -724,7 +728,6 @@ a:hover .avatar {
 	font-size:     1.0625rem;
 	background:    #fff;
 	border-top:    10px solid #050505;
-	border-bottom: 1px solid #858585;
 	box-sizing:    border-box;
 }
 
@@ -1071,6 +1074,10 @@ a:hover .avatar {
 		color:      #959595;
 	}
 
+		.loop-description em {
+			font-style: normal;
+		}
+
 		.loop-description a {
 			display:       inline-block;
 			padding:       0 2px;
@@ -1092,7 +1099,7 @@ a:hover .avatar {
 
 .page-links {
 	clear:       both;
-	font-family: 'MuliRegular';
+	/**font-family: 'MuliRegular';/**/
 }
 
 	.page-links .before {
@@ -1108,6 +1115,11 @@ a:hover .avatar {
 		box-sizing: border-box;
 	}
 
+	.sticky .page-links a {
+		background:   #f5f5f5;
+		border-color: 1px solid #e5e5e5;
+	}
+
 	.page-links a:hover {
 		background:   #efefef;
 		border-color: #d5d5d5;
@@ -1119,7 +1131,7 @@ a:hover .avatar {
 .loop-nav {
 	clear:       both;
 	margin:      0 0 50px;
-	font-family: 'MuliRegular';
+	/**font-family: 'MuliRegular';/**/
 	font-size:   1.25rem;
 	text-align:  center;
 }
@@ -1317,12 +1329,9 @@ a:hover .avatar {
 			.comment-text {
 				clear:     left;
 				word-wrap: break-word;
-			}
-
-			li.comment .comment-text {
-				margin:  0 0 25px;
-				padding: 25px 25px 0 25px;
-				border:  1px solid #efefef;
+				margin:    0 0 25px;
+				padding:   25px 25px 0 25px;
+				border:    1px solid #efefef;
 			}
 
 			li.bypostauthor > .comment-text {
@@ -1332,7 +1341,7 @@ a:hover .avatar {
 
 			/* === Reply link === */
 
-			li.comment .comment-reply-link {
+			.comment-reply-link {
 				position:   relative;
 				display:    inline-block;
 				float:      right;
@@ -1342,9 +1351,11 @@ a:hover .avatar {
 				font-style: italic;
 				color:      #f5f5f5;
 				background: #cb5700;
+				text-align: center;
 			}
 
-				li.comment .comment-reply-link:hover {
+				.comment-reply-link:hover {
+					color:           #f5f5f5;
 					background:      #050505;
 					text-decoration: none;
 				}
@@ -1419,7 +1430,7 @@ a:hover .avatar {
 
 	#respond input[type="submit"] {
 		padding:     15px 25px;
-		font-family: 'MuliRegular';
+		/**font-family: 'MuliRegular';/**/
 	}
 
 /**
@@ -1430,20 +1441,15 @@ a:hover .avatar {
 	box-sizing:  border-box;
 	width:       100%;
 	padding:     10px 50px 0;
-	font-family: 'MuliRegular';
+	/**font-family: 'MuliRegular';/**/
 	font-size:   0.875rem;
-	color:       #959595;
+	color:       #c5c5c5;
 	background:  #050505;
 	text-align:  center;
 }
 
-	#footer .copyright {
-		display: inline;
-	}
-
 	#footer .credit {
-		text-align: right;
-		display: inline;
+		margin: 0;
 	}
 
 	#footer a {
@@ -1461,27 +1467,9 @@ a:hover .avatar {
  * theme rather than to any specific devices/screens.
  * --------------------------------------------------------------------------- */
 
-/* === 1100px breakpoint === */
+/* === 900px breakpoint === */
 
-@media only screen and (max-width: 1100px) {
-
-	#container {
-		width: 1075px;
-	}
-
-	.layout-1c #container {
-		width: 93.5%;
-	}
-}
-
-/* === 1075px breakpoint === */
-
-@media only screen and (max-width: 1075px) {
-
-	#container {
-		width: 750px;
-	}
-
+@media only screen and (max-width: 900px) {
 	#container > .wrap {
 		width: 100%;
 	}
@@ -1508,9 +1496,6 @@ a:hover .avatar {
 
 @media only screen and (max-width:800px) {
 
-	#container {
-		width: 93.5%;
-	}
 	.layout-1c.archive-portfolio_item .hentry,
 	.layout-1c.taxonomy-portfolio .hentry,
 	.layout-1c.page-template-portfolio .hentry.portfolio_item {
@@ -1552,12 +1537,9 @@ a:hover .avatar {
 /* === Clearing floats === */
 
 .clearfix::after,
-#container::after,
-#container > .wrap::after,
 #header::after,
 #branding::after,
 #menu-primary::after,
-#footer::after,
 .widget::after,
 .hentry::after,
 .entry-summary::after,
