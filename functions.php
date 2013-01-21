@@ -94,7 +94,7 @@ function chun_theme_setup() {
 		)
 	);
 
-	require_once( trailingslashit( get_template_directory() ) . 'color-palette.php' );
+	require_once( trailingslashit( get_template_directory() ) . 'inc/color-palette.php' );
 
 	/* Add theme support for WordPress features. */
 	add_theme_support( 'automatic-feed-links' );
