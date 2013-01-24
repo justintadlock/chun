@@ -513,6 +513,7 @@ function chun_register_colors( $color_palette ) {
 			'background-color'    => '#branding, li.comment .comment-reply-link',
 			'border-top-color'    => 'body',
 			'border-bottom-color' => '.breaadcrumb-trail a:hover, .sticky.hentry, .loop-meta, .page-template-portfolio .hentry.page',
+			'border-left-color'   => 'pre'
 		)
 	);
 

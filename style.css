@@ -121,11 +121,12 @@ code {
 }
 
 pre {
-	word-wrap:  normal;
-	padding:    25px;
-	color:      #cb5700;
-	background: #f5f5f5;
-	border:     1px solid #e5e5e5;
+	word-wrap:   normal;
+	padding:     25px;
+	color:       #cb5700;
+	background:  #f5f5f5;
+	border:      1px solid #e5e5e5;
+	border-left: 5px solid #cb5700;
 }
 
 
