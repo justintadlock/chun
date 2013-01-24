@@ -35,11 +35,16 @@ new Hybrid();
 /* Do theme setup on the 'after_setup_theme' hook. */
 add_action( 'after_setup_theme', 'chun_theme_setup' );
 
+/* Load additional libraries a little later. */
+add_action( 'after_setup_theme', 'chun_load_libraries', 15 );
+
 /**
  * Theme setup function.  This function adds support for theme features and defines the default theme
  * actions and filters.
  *
- * @since 0.1.0
+ * @since  0.1.0
+ * @access public
+ * @return void
  */
 function chun_theme_setup() {
 
@@ -56,213 +61,90 @@ function chun_theme_setup() {
 	add_theme_support( 'hybrid-core-styles', array( '25px', 'gallery', 'parent', 'style' ) );
 
 	/* Add theme support for framework extensions. */
-	add_theme_support( 
-		'theme-layouts', 
-		array( '1c', '2c-l', '2c-r' ),
-		array( 'default' => '2c-l' )
-	);
-
+	add_theme_support( 'theme-layouts', array( '1c', '2c-l', '2c-r' ), array( 'default' => '2c-l' ) );
 	add_theme_support( 'post-stylesheets' );
 	add_theme_support( 'loop-pagination' );
 	add_theme_support( 'get-the-image' );
 	add_theme_support( 'breadcrumb-trail' );
 	add_theme_support( 'cleaner-gallery' );
 
-	add_theme_support(
-		'theme-stylesheets',
-		array(
-			'headlines' => array( 
-				'default'      => 'css/muli-regular.css',
-				'label'        => __( 'Headline Font', 'chun' ),
-				'file_header'  => 'Font Style' // don't translate
-			)
-		)
-	);
-
-	require_once( trailingslashit( get_template_directory() ) . 'inc/theme-stylesheets.php' );
-
-	add_theme_support( 
-		'color-palette',
-		array(
-			'primary'        => array( 'default' => 'cb5700', 'label' => __( 'Primary Color', 'chun' ) ),
-			'secondary'      => array( 'default' => '050505', 'label' => __( 'Secondary Color', 'chun' ) ),
-			'menu_primary_1' => array( 'default' => '00393e', 'label' => __( 'Primary Menu Color #1', 'chun' ) ),
-			'menu_primary_2' => array( 'default' => '00666f', 'label' => __( 'Primary Menu Color #2', 'chun' ) ),
-		),
-		array(
-			'callback' => 'chun_custom_color_definitions',
-		)
-	);
-
-	require_once( trailingslashit( get_template_directory() ) . 'inc/color-palette.php' );
+	/* Add theme support for some included libraries. */
+	add_theme_support( 'theme-fonts',   array( 'callback' => 'chun_register_fonts' ) );
+	add_theme_support( 'color-palette', array( 'callback' => 'chun_register_colors' ) );
 
 	/* Add theme support for WordPress features. */
 	add_theme_support( 'automatic-feed-links' );
-
+	add_theme_support( 'custom-background', array( 'wp-head-callback' => 'chun_custom_background_callback' ) );
 	add_theme_support( 
 		'post-formats', 
 		array( 'aside', 'audio', 'chat', 'image', 'gallery', 'link', 'quote', 'status', 'video' ) 
 	);
 
-
-	/* Add support for WordPress custom background. */
-	add_theme_support( 
-		'custom-background',
-		array(
-			//'default-color' => '050505',
-			//'default-image' => trailingslashit( get_template_directory_uri() ) . 'images/bg.png',
-			'wp-head-callback' => 'chun_custom_background_callback'
-		)
-	);
-
-	/* Add support for WordPress custom header image. */
-	add_theme_support(
-		'custom-header',
-		array(
-			'wp-head-callback' => '__return_false',
-			'admin-head-callback' => '__return_false',
-			'header-text' => false,
-			'default-image' => 'remove-header',
-			'width' => 1050,
-			'height' => 200
-		)
-	);
-
-	/* Embed width/height defaults. */
+	/* Handle content width for embeds and images. */
+	hybrid_set_content_width( 650 );
 	add_filter( 'embed_defaults', 'chun_embed_defaults' );
 
-	/* Set content width. */
-	hybrid_set_content_width( 650 );
+	/* Add custom image sizes. */
+	add_action( 'init', 'chun_register_image_sizes' );
+
+	/* Add custom menus. */
+	add_action( 'init', 'chun_register_menus', 11 );
 
 	/* Filter the sidebar widgets. */
 	add_filter( 'sidebars_widgets', 'chun_disable_sidebars' );
-	add_action( 'wp', 'chun_one_column' );
-	//add_action( 'customize_preview_init', 'chun_one_column' );
+	add_action( 'template_redirect', 'chun_one_column' );
 
 	/* Add classes to the comments pagination. */
 	add_filter( 'previous_comments_link_attributes', 'chun_previous_comments_link_attributes' );
 	add_filter( 'next_comments_link_attributes', 'chun_next_comments_link_attributes' );
 
-	/* Add infinity symbol to aside posts. */
-	add_filter( 'the_content', 'chun_post_format_tools_aside_infinity', 9 ); // run before wpautop
-
-	add_action( 'init', 'chun_register_image_sizes' );
-	add_action( 'init', 'chun_register_menus', 11 );
-
+	/* Wrap embeds with some custom HTML to handle responsive layout. */
 	add_filter( 'embed_handler_html', 'chun_embed_html' );
 	add_filter( 'embed_oembed_html',  'chun_embed_html' );
 
-	/* Testing out some early Hybrid Core 1.6 proposed HTML changes. */
+	/* Ignore some selectors for the Color Palette extension in the theme customizer. */
+	add_filter( 'color_palette_preview_js_ignore', 'chun_cp_preview_js_ignore', 10, 3 );
+
+	/* Testing out some early Hybrid Core 1.6 proposed changes. */
 	add_filter( "{$prefix}_sidebar_defaults", 'chun_sidebar_defaults' );
 	add_filter( 'cleaner_gallery_defaults',   'chun_gallery_defaults' );
+	add_filter( 'the_content', 'chun_post_format_tools_aside_infinity', 9 );
 }
 
-function chun_custom_color_definitions( $colors = array() ) {
-
-
-	$colors = array(
-		'primary' => array(
-			'color' => array(
-				'a', 
-				'pre', 
-				'code', 
-				'.breadcrumb-trail a', 
-				'.format-link .entry-title a .meta-nav', 
-				'#respond label .required', 
-				'#footer a:hover'
-			),
-			'background-color' => array(
-				'#branding',
-				'li.comment .comment-reply-link',
-			),
-			'border-top-color' => array( 
-				'body' 
-			),
-			'border-bottom-color' => array( 
-				'.breaadcrumb-trail a:hover',
-				'.sticky.hentry', 
-				'.loop-meta', 
-				'.page-template-portfolio .hentry.page'
-			),
-		),
-		'secondary' => array(
-			'color' => array( 
-				'#site-title a',
-				'.entry-title', 
-				'.entry-title a',
-				'.loop-title', 
-				'#menu-portfolio li.current-cat a', 
-				'#menu-portfolio li.current-menu-item a', 
-				'.page-numbers.current'
-			),
-			'background-color' => array(
-				'.breadcrumb-trail',
-				'li.comment .comment-reply-link:hover',
-				'#footer'
-			),
-			'border-top-color' => array(
-				'.hentry',
-				'.loop-meta',
-				'.attachment-meta',
-				'#comments-template',
-				'.page-template-portfolio .hentry.page'
-			),
-			'border-bottom-color' => array(
-				'body' 
-			)
-		),
-		'menu_primary_1' => array(
-			'color' => array( 
-				'#menu-primary li a' 
-			),
-			'background-color' => array(
-				'#menu-primary li li a:hover',
-				'#menu-primary li li:hover > a'
-			)
-		),
-		'menu_primary_2' => array(
-			'color' => array( 
-				'#menu-primary li a:hover',
-				'#menu-primary li:hover > a',
-				'#menu-primary li.current-menu-item > a',
-			),
-			'background-color' => array(
-				'#menu-primary li li a',
-			),
-			'border-bottom-color' => array(
-				'#menu-primary-items ul li:first-child > a::after'
-			),
-			'border-right-color' => array(
-				'#menu-primary-items ul ul li:first-child a::after'
-			),
-		),
-	);
-
-	return $colors;
+/**
+ * Loads some additional PHP scripts into the theme for usage.
+ *
+ * @since  0.1.0
+ * @access public
+ * @return void
+ */
+function chun_load_libraries() {
+	require_once( trailingslashit( get_template_directory() ) . 'inc/color-palette.php' );
+	require_once( trailingslashit( get_template_directory() ) . 'inc/theme-fonts.php' );
 }
 
-add_filter( 'color_palette_js_do_not_overwrite', 'chun_save_my_colors', 10, 3 );
-
-function chun_save_my_colors( $element, $name, $property ) {
-
-	if ( 'color' === $property && 'primary' === $name )
-		$element = '#site-title a, .menu a, .entry-title a';
-	elseif ( 'color' === $property && 'menu_primary_1' === $name )
-		$element = '#menu-primary li .sub-menu li a, #menu-primary li.current-menu-item li a, #menu-primary li li.current-menu-item > a';
-
-	return $element;
-}
-
-
-
+/**
+ * Registers custom nav menus for this theme.  The only extra menu is the 'Portfolio' menu.  It is only 
+ * added if the 'portfolio_item' post type exists.  This is to be used with the 'CPT: Portfolio' plugin.
+ *
+ * @since  0.1.0
+ * @access public
+ * @return void
+ */
 function chun_register_menus() {
 
 	if ( post_type_exists( 'portfolio_item' ) )
 		register_nav_menu( 'portfolio', esc_html__( 'Portfolio', 'chun' ) );
 }
 
-
-
+/**
+ * Registers custom image sizes for the theme.  The 'portfolio-large' size is only added if the user has 
+ * installed the 'CPT: Portfolio' plugin.
+ *
+ * @since  0.1.0
+ * @access public
+ * @return void
+ */
 function chun_register_image_sizes() {
 
 	/* Size: 'post-thumbnail' */
@@ -273,7 +155,13 @@ function chun_register_image_sizes() {
 		add_image_size( 'portfolio-large', 650, 488, true );
 }
 
-
+/**
+ * Wraps embeds with <div class="embed-wrap"> to help in making videos responsive.
+ *
+ * @since  0.1.0
+ * @access public
+ * @return void
+ */
 function chun_embed_html( $html ) {
 
 	if ( in_the_loop() && has_post_format( 'video' ) && preg_match( '/(<embed|object|iframe)/', $html ) )
@@ -282,70 +170,12 @@ function chun_embed_html( $html ) {
 	return $html;
 }
 
-/* === HYBRID CORE 1.6 CHANGES. === 
- *
- * The following changes are slated for Hybrid Core version 1.6 to make it easier for 
- * theme developers to build awesome HTML5 themes.  If you overwrite these via a hook, 
- * keep in mind that you might need to change your code in the next major theme update.
- */
-
-	function chun_sidebar_defaults( $defaults ) {
-
-		$defaults = array(
-			'before_widget' => '<section id="%1$s" class="widget %2$s widget-%2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h3 class="widget-title">',
-			'after_title'   => '</h3>'
-		);
-
-		return $defaults;
-	}
-
-	function chun_gallery_defaults( $defaults ) {
-
-		$defaults['size']       = 'post-thumbnail'; // Not for Hybrid Core 1.6.
-		$defaults['itemtag']    = 'figure';
-		$defaults['icontag']    = 'div';
-		$defaults['captiontag'] = 'figcaption';
-
-		return $defaults;
-	}
-
-	/**
-	 * Adds an infinity character "&#8734;" to the end of the post content on 'aside' posts.  This 
-	 * is from version 0.1.1 of the Post Format Tools extension.
-	 *
-	 * @since 0.1.1
-	 * @access public
-	 * @param string $content The post content.
-	 * @return string $content
-	 */
-	function chun_post_format_tools_aside_infinity( $content ) {
-
-		if ( has_post_format( 'aside' ) && !is_singular() )
-			$content .= ' <a class="permalink" href="' . get_permalink() . '" title="' . the_title_attribute( array( 'echo' => false ) ) . '">&#8734;</a>';
-
-		return $content;
-	}
-
-/* End Hybrid Core 1.6 section. */
-
-function chun_get_portfolio_item_link() {
-
-	$url = get_post_meta( get_the_ID(), '_portfolio_item_url', true );
-
-	if ( !empty( $url ) )
-		return '<a href="' . esc_url( $url ) . '">' . __( 'Project <abbr title="Uniform Resource Locator">URL</abbr>', 'chun' ) . '</a>';
-}
-
-
-
-
-
 /**
  * Function for deciding which pages should have a one-column layout.
  *
- * @since 0.1.0
+ * @since  0.1.0
+ * @access public
+ * @return void
  */
 function chun_one_column() {
 
@@ -362,8 +192,8 @@ function chun_one_column() {
 /**
  * Filters 'get_theme_layout' by returning 'layout-1c'.
  *
- * @since 0.1.0
- * @param string $layout The layout of the current page.
+ * @since  0.1.0
+ * @param  string $layout The layout of the current page.
  * @return string
  */
 function chun_theme_layout_one_column( $layout ) {
@@ -373,14 +203,14 @@ function chun_theme_layout_one_column( $layout ) {
 /**
  * Disables sidebars if viewing a one-column page.
  *
- * @since 0.1.0
- * @param array $sidebars_widgets A multidimensional array of sidebars and widgets.
+ * @since  0.1.0
+ * @param  array $sidebars_widgets A multidimensional array of sidebars and widgets.
  * @return array $sidebars_widgets
  */
 function chun_disable_sidebars( $sidebars_widgets ) {
 	global $wp_customize;
 
-	$customize = ( is_object( $wp_customize ) && true === $wp_customize->is_preview() ) ? true : false;
+	$customize = ( is_object( $wp_customize ) && $wp_customize->is_preview() ) ? true : false;
 
 	if ( !is_admin() && !$customize && '1c' == get_theme_mod( 'theme_layout' ) )
 		$sidebars_widgets['primary'] = false;
@@ -393,19 +223,15 @@ function chun_disable_sidebars( $sidebars_widgets ) {
  * expand the full width on video pages.  This function overwrites what the $content_width variable handles
  * with context-based widths.
  *
- * @since 0.1.0
+ * @since  0.1.0
+ * @access public
+ * @param  array  $args
+ * @return array
  */
 function chun_embed_defaults( $args ) {
 
-	$args['width'] = hybrid_get_content_width();
-
-	if ( current_theme_supports( 'theme-layouts' ) ) {
-
-		$layout = theme_layouts_get_layout();
-
-		if ( 'layout-1c' == $layout )
-			$args['width'] = 1000;
-	}
+	if ( current_theme_supports( 'theme-layouts' ) && '1c' == get_theme_mod( 'theme_layout' ) )
+		$args['width'] = 1000;
 
 	return $args;
 }
@@ -413,8 +239,9 @@ function chun_embed_defaults( $args ) {
 /**
  * Adds 'class="prev" to the previous comments link.
  *
- * @since 0.1.0
- * @param string $attributes The previous comments link attributes.
+ * @since  0.1.0
+ * @access public
+ * @param  string $attributes The previous comments link attributes.
  * @return string
  */
 function chun_previous_comments_link_attributes( $attributes ) {
@@ -424,21 +251,21 @@ function chun_previous_comments_link_attributes( $attributes ) {
 /**
  * Adds 'class="next" to the next comments link.
  *
- * @since 0.1.0
- * @param string $attributes The next comments link attributes.
+ * @since  0.1.0
+ * @access public
+ * @param  string $attributes The next comments link attributes.
  * @return string
  */
 function chun_next_comments_link_attributes( $attributes ) {
 	return $attributes . ' class="next"';
 }
 
-
-
 /**
  * Returns a set of image attachment links based on size.
  *
- * @since 0.1.0
- * @return string Links to various image sizes for the image attachment.
+ * @since  0.1.0
+ * @access public
+ * @return string
  */
 function chun_get_image_size_links() {
 
@@ -469,48 +296,15 @@ function chun_get_image_size_links() {
 }
 
 /**
- * This is a fix for when a user sets a custom background color with no custom background image.  What 
- * happens is the theme's background image hides the user-selected background color.  If a user selects a 
- * background image, we'll just use the WordPress custom background callback.
- *
- * @since 0.1.0
- * @link http://core.trac.wordpress.org/ticket/16919
- */
-function chun_custom_background_callback() {
-
-	/* Get the background image. */
-	$image = get_background_image();
-
-	/* If there's an image, just call the normal WordPress callback. We won't do anything here. */
-	if ( !empty( $image ) ) {
-		_custom_background_cb();
-		return;
-	}
-
-	/* Get the background color. */
-	$color = get_background_color();
-
-	/* If no background color, return. */
-	if ( empty( $color ) )
-		return;
-
-	/* Use 'background' instead of 'background-color'. */
-	$style = "background: #{$color};";
-
-?>
-<style type="text/css">body.custom-background { <?php echo trim( $style ); ?> }</style>
-<?php
-
-}
-
-/**
  * Displays an attachment image's metadata and exif data while viewing a singular attachment page.
  *
  * Note: This function will most likely be restructured completely in the future.  The eventual plan is to 
  * separate each of the elements into an attachment API that can be used across multiple themes.  Keep 
  * this in mind if you plan on using the current filter hooks in this function.
  *
- * @since 0.1.0
+ * @since  0.1.0
+ * @access public
+ * @return void
  */
 function chun_image_info() {
 
@@ -573,5 +367,287 @@ function chun_image_info() {
 	echo apply_atomic( 'image_info', $output );
 }
 
+/**
+ * This is a fix for when a user sets a custom background color with no custom background image.  What 
+ * happens is the theme's background image hides the user-selected background color.  If a user selects a 
+ * background image, we'll just use the WordPress custom background callback.
+ *
+ * @since  0.1.0
+ * @access public
+ * @link   http://core.trac.wordpress.org/ticket/16919
+ * @return void
+ */
+function chun_custom_background_callback() {
+
+	/* Get the background image. */
+	$image = get_background_image();
+
+	/* If there's an image, just call the normal WordPress callback. We won't do anything here. */
+	if ( !empty( $image ) ) {
+		_custom_background_cb();
+		return;
+	}
+
+	/* Get the background color. */
+	$color = get_background_color();
+
+	/* If no background color, return. */
+	if ( empty( $color ) )
+		return;
+
+	/* Use 'background' instead of 'background-color'. */
+	$style = "background: #{$color};";
+
+?>
+<style type="text/css">body.custom-background { <?php echo trim( $style ); ?> }</style>
+<?php
+
+}
+
+/**
+ * Registers custom fonts for the Theme Fonts extension.
+ *
+ * @since  0.1.0
+ * @access public
+ * @param  object  $theme_fonts
+ * @return void
+ */
+function chun_register_fonts( $theme_fonts ) {
+
+	/* Add the 'headlines' font setting. */
+	$theme_fonts->add_setting(
+		array(
+			'id'        => 'headlines',
+			'label'     => __( 'Headlines', 'chun' ),
+			'default'   => 'muli',
+			'selectors' => 'h1, h2, h3, h4, h5, h6, th, #menu-primary li a, #menu-portfolio li a, .breadcrumb-trail, .page-links, .loop-pagination, .loop-nav, #respond input[type="submit"], #footer',
+		)
+	);
+
+	/* Add fonts that users can select for this theme. */
+
+	$theme_fonts->add_font(
+		array(
+			'handle' => 'trebuchet-font-stack',
+			'label'  => __( 'Trebuchet (font stack)', 'chun' ),
+			'stack'  => '"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif'
+		)
+	);
+	$theme_fonts->add_font(
+		array(
+			'handle' => 'georgia-font-stack',
+			'label'  => __( 'Georgia (font stack)', 'chun' ),
+			'stack'  => ' Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif',
+		)
+	);
+
+	$theme_fonts->add_font(
+		array(
+			'handle' => 'arvo',
+			'label'  => __( 'Arvo', 'chun' ),
+			'family' => 'Arvo',
+			'stack'  => 'Arvo, serif',
+			'type'   => 'google'
+		)
+	);
+	$theme_fonts->add_font(
+		array(
+			'handle' => 'muli',
+			'label'  => __( 'Muli', 'chun' ),
+			'family' => 'Muli',
+			'stack'  => "Muli, sans-serif",
+			'type'   => 'google'
+		)
+	);
+	$theme_fonts->add_font(
+		array(
+			'handle' => 'open-sans',
+			'label'  => __( 'Open Sans', 'chun' ),
+			'family' => 'Open Sans',
+			'stack'  => "'Open Sans', sans-serif",
+			'type'   => 'google'
+		)
+	);
+	$theme_fonts->add_font(
+		array(
+			'handle' => 'open-sans-condensed-700',
+			'label'  => __( 'Open Sans Condensed (700)', 'chun' ),
+			'family' => 'Open Sans Condensed',
+			'weight' => '700',
+			'stack'  => "'Open Sans Condensed', sans-serif",
+			'type'   => 'google'
+		)
+	);
+}
+
+/**
+ * Registers colors for the Color Palette extension.
+ *
+ * @since  0.1.0
+ * @access public
+ * @param  object  $color_palette
+ * @return void
+ */
+function chun_register_colors( $color_palette ) {
+
+	/* Add custom colors. */
+	$color_palette->add_color(
+		array( 'id' => 'primary', 'label' => __( 'Primary Color', 'chun' ), 'default' => 'cb5700' )
+	);
+	$color_palette->add_color(
+		array( 'id' => 'secondary', 'label' => __( 'Secondary Color', 'chun' ), 'default' => '050505' )
+	);
+	$color_palette->add_color(
+		array( 'id' => 'menu_primary_1', 'label' => __( 'Menu Primary #1 Color', 'chun' ), 'default' => '00393e' )
+	);
+	$color_palette->add_color(
+		array( 'id' => 'menu_primary_2', 'label' => __( 'Menu Primary #2 Color', 'chun' ), 'default' => '00666f' )
+	);
+
+	/* Add rule sets for colors. */
+
+	$color_palette->add_rule_set(
+		'primary',
+		array(
+			'color'               => 'a, pre, code, .breadcrumb-trail a, .format-link .entry-title a .meta-nav, #respond label .required, #footer a:hover',
+			'background-color'    => '#branding, li.comment .comment-reply-link',
+			'border-top-color'    => 'body',
+			'border-bottom-color' => '.breaadcrumb-trail a:hover, .sticky.hentry, .loop-meta, .page-template-portfolio .hentry.page',
+		)
+	);
+
+	$color_palette->add_rule_set(
+		'secondary',
+		array(
+			'color'               => '#site-title a, .entry-title, .entry-title a, .loop-title, #menu-portfolio li.current-cat a, #menu-portfolio li.current-menu-item a, .page-numbers.current',
+			'background-color'    => '.breadcrumb-trail, li.comment .comment-reply-link:hover, #footer',
+			'border-top-color'    => '.hentry, .loop-meta, .attachment-meta, #comments-template, .page-template-portfolio .hentry.page',
+			'border-bottom-color' => 'body'
+		)
+	);
+
+	$color_palette->add_rule_set(
+		'menu_primary_1',
+		array(
+			'color'            => '#menu-primary li a',
+			'background-color' => '#menu-primary li li a:hover, #menu-primary li li:hover > a'
+		)
+	);
+
+	$color_palette->add_rule_set(
+		'menu_primary_2',
+		array(
+			'color'               => '#menu-primary li a:hover, #menu-primary li:hover > a, #menu-primary li.current-menu-item > a',
+			'background-color'    => '#menu-primary li li a',
+			'border-bottom-color' => '#menu-primary-items ul li:first-child > a::after',
+			'border-right-color'  => '#menu-primary-items ul ul li:first-child a::after'
+		)
+	);
+}
+
+/**
+ * Filters the 'color_palette_preview_js_ignore' hook with some selectors that should be ignored on the 
+ * live preview because they don't need to be overwritten.
+ *
+ * @since  0.1.0
+ * @access public
+ * @param  string  $selectors
+ * @param  string  $color_id
+ * @param  string  $property
+ * @return string
+ */
+function chun_cp_preview_js_ignore( $selectors, $color_id, $property ) {
+
+	if ( 'color' === $property && 'primary' === $color_id )
+		$selectors = '#site-title a, .menu a, .entry-title a';
+
+	elseif ( 'color' === $property && 'menu_primary_1' === $color_id )
+		$selectors = '#menu-primary li .sub-menu li a, #menu-primary li.current-menu-item li a, #menu-primary li li.current-menu-item > a';
+
+	return $selectors;
+}
+
+/* === CPT: PORTFOLIO PLUGIN. === */
+
+	/**
+	 * Returns a link to the porfolio item URL if it has been set.
+	 *
+	 * @since  0.1.0
+	 * @access public
+	 * @return void
+	 */
+	function chun_get_portfolio_item_link() {
+
+		$url = get_post_meta( get_the_ID(), '_portfolio_item_url', true );
+
+		if ( !empty( $url ) )
+			return '<a href="' . esc_url( $url ) . '">' . __( 'Project <abbr title="Uniform Resource Locator">URL</abbr>', 'chun' ) . '</a>';
+	}
+
+/* End CPT: Portfolio section. */
+
+/* === HYBRID CORE 1.6 CHANGES. === 
+ *
+ * The following changes are slated for Hybrid Core version 1.6 to make it easier for 
+ * theme developers to build awesome HTML5 themes.  If you overwrite these via a hook, 
+ * keep in mind that you might need to change your code in the next major theme update.
+ */
+
+	/**
+	 * Sidebar parameter defaults.
+	 *
+	 * @since  0.1.0
+	 * @access public
+	 * @param  array  $defaults
+	 * @return array
+	 */
+	function chun_sidebar_defaults( $defaults ) {
+
+		$defaults = array(
+			'before_widget' => '<section id="%1$s" class="widget %2$s widget-%2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>'
+		);
+
+		return $defaults;
+	}
+
+	/**
+	 * Gallery defaults for the Cleaner Gallery extension.
+	 *
+	 * @since  0.1.0
+	 * @access public
+	 * @param  array  $defaults
+	 * @return array
+	 */
+	function chun_gallery_defaults( $defaults ) {
+
+		$defaults['size']       = 'post-thumbnail'; // Not for Hybrid Core 1.6.
+		$defaults['itemtag']    = 'figure';
+		$defaults['icontag']    = 'div';
+		$defaults['captiontag'] = 'figcaption';
+
+		return $defaults;
+	}
+
+	/**
+	 * Adds an infinity character "&#8734;" to the end of the post content on 'aside' posts.  This 
+	 * is from version 0.1.1 of the Post Format Tools extension.
+	 *
+	 * @since  0.1.1
+	 * @access public
+	 * @param  string $content The post content.
+	 * @return string $content
+	 */
+	function chun_post_format_tools_aside_infinity( $content ) {
+
+		if ( has_post_format( 'aside' ) && !is_singular() )
+			$content .= ' <a class="permalink" href="' . get_permalink() . '" title="' . the_title_attribute( array( 'echo' => false ) ) . '">&#8734;</a>';
+
+		return $content;
+	}
+
+/* End Hybrid Core 1.6 section. */
 
 ?>

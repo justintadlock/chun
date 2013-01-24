@@ -302,6 +302,7 @@ img {
 }
 
 	.wp-caption-text {
+		margin:     0;
 		padding:    0 25px;
 		text-align: center;
 		font-size:  1.0625rem;
@@ -870,6 +871,11 @@ a:hover .avatar {
 
 	/* === Chats === */
 
+	.singular-post .format-chat .entry-summary {
+		font-style: italic;
+		color:      #959595;
+	}
+
 	.format-chat .chat-row {}
 
 	.format-chat .chat-text {
@@ -919,6 +925,10 @@ a:hover .avatar {
 	.format-link .entry-title {
 		text-align: left;
 		margin:     0 0 23px;
+	}
+
+	.singular .format-link .entry-title {
+		text-align: center;
 	}
 
 		.format-link .entry-title a .meta-nav {

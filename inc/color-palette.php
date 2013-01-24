@@ -23,7 +23,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package   ColorPalette
- * @version   0.1.0
+ * @version   0.1.0-alpha
  * @author    Justin Tadlock <justin@justintadlock.com>
  * @copyright Copyright (c) 2013, Justin Tadlock
  * @link      http://justintadlock.com
@@ -36,31 +36,25 @@
  * @since  0.1.0
  * @access public
  */
-class Color_Palette {
-
-	/**
-	 * Arguments for the 'color-palette' theme feature.
-	 *
-	 * @since  0.1.0
-	 * @access public
-	 */
-	public $args = array();
+final class Color_Palette {
 
 	/**
 	 * Array of individual color options and their settings.
 	 *
 	 * @since  0.1.0
-	 * @access public
+	 * @access protected
+	 * @var    array
 	 */
-	public $colors = array();
+	protected $colors = array();
 
 	/**
-	 * The color-specific properties and the elements they define.
+	 * An array of properties and selectors.  "$rules[ $color_id ][ $property ][ $selectors ]"
 	 *
 	 * @since  0.1.0
-	 * @access public
+	 * @access protected
+	 * @var    array
 	 */
-	public $rules = array();
+	protected $rules = array();
 
 	/**
 	 * The allowed CSS properties the theme developer can set a color rule for.
@@ -88,66 +82,86 @@ class Color_Palette {
 	 */
 	public function __construct() {
 
-		/* Get the options defined via add_theme_support(). */
+		/* Get the theme support arguements for 'color-palette'. */
 		$supports = get_theme_support( 'color-palette' );
 
-		/* If there are no color options set, there's nothing to do here. :) */
-		if ( empty( $supports[0] ) )
-			return;
+		/* If a callback was set, add it to the correct action hook. */
+		if ( !empty( $supports[0] ) && isset( $supports[0]['callback'] ) ) 
+			add_action( 'color_palette_register', $supports[0]['callback'] );
 
-		/* Set up colors. */
-		$this->add_colors( $supports[0] );
+		/* Output CSS into <head>. */
+		add_action( 'wp_head', array( &$this, 'wp_head_callback' ) );
 
-		/* Set up arguments. */
-		$this->add_args( $supports[1] );
+		/* Add a '.custom-colors' <body> class. */
+		add_filter( 'body_class', array( &$this, 'body_class' ) );
 
-		/* If a callback was given. */
-		add_filter( 'color_palette_rules', $this->args['callback'], 10 );
+		/* Add options to the theme customizer. */
+		add_action( 'customize_register', array( &$this, 'customize_register' ) );
 
-		/* Apply filters to the color palette CSS rules. */
-		$this->rules = apply_filters( 'color_palette_rules', array() );
+		/* Delete the cached data for this feature. */
+		add_action( 'update_option_theme_mods_' . get_stylesheet(), array( &$this, 'cache_delete' ) );
 
-		/* Only add actions/filters if style rules are defined. */
-		if ( !empty( $this->rules ) ) {
-			add_filter( 'body_class',         array( &$this, 'body_class' ) );
-			add_action( 'wp_head',            array( &$this, 'wp_head_callback' ) );
-			add_action( 'customize_register', array( &$this, 'customize_register' ) );
-
-			add_action( 'update_option_theme_mods_' . get_stylesheet(), array( &$this, 'cache_delete' ) );
-		}
+		/* Hook for registering custom colors and rule sets. */
+		do_action( 'color_palette_register', $this );
 	}
 
 	/**
-	 * Adds the color options and makes sure we have defaults if the dev didn't set them.
-	 *
-	 * @since  0.1.0
-	 * @access public
-	 * @param  array  $colors
-	 * @return void
-	 */
-	public function add_colors( $colors ) {
-
-		foreach( $colors as $name => $color ) {
-
-			$this->colors[ $name ] = array();
-
-			$this->colors[ $name ]['default'] = !empty( $color['default'] ) ? $this->sanitize_hex_color( $color['default'] ) : '';
-
-			$this->colors[ $name ]['label'] = !empty( $color['label'] ) ? esc_html( $color['label'] ) : esc_html( $name );
-		}
-	}
-
-	/**
-	 * Sets up the arguments for the feature.
+	 * Add a color option.
 	 *
 	 * @since  0.1.0
 	 * @access public
 	 * @param  array  $args
 	 * @return void
 	 */
-	public function add_args( $args ) {
+	public function add_color( $args ) {
 
-		$this->args['callback'] = !empty( $args['callback'] ) ? $args['callback'] : '__return_empty_array';
+		if ( !isset( $args['id'] ) )
+			return;
+
+		$args['default'] = isset( $args['default'] ) ? $this->sanitize_hex_color( $args['default'] ) : '';
+
+		$this->colors[ $args['id'] ] = $args;
+	}
+
+	/**
+	 * Get a color option.
+	 *
+	 * @since  0.1.0
+	 * @access public
+	 * @param  string  $id
+	 * @return array|string
+	 */
+	public function get_color( $id ) {
+
+		return isset( $this->colors[ $id ] ) ? $this->colors[ $id ] : '';
+	}
+
+	/**
+	 * Add a complete rule set for a specific theme color.  The color must already be registered.
+	 *
+	 * @since  0.1.0
+	 * @access public
+	 * @param  string  $color_id
+	 * @param  array   $rules
+	 * @return void
+	 */
+	public function add_rule_set( $color_id, $rules ) {
+
+		$color = $this->get_color( $color_id );
+
+		if ( empty( $color ) )
+			return;
+
+		foreach ( $rules as $property => $selectors ) {
+
+			if ( in_array( $property, $this->allowed_properties ) ) {
+
+				if ( !is_array( $selectors ) )
+					$selectors = array_map( 'trim', explode( ',', $selectors ) );
+
+				$this->rules[ $color_id ][ $property ] = $selectors;
+			}
+		}
 	}
 
 	/**
@@ -184,22 +198,20 @@ class Color_Palette {
 		}
 
 		/* Loop through each of the rules by name. */
-		foreach ( $this->rules as $name => $properties ) {
+		foreach ( $this->rules as $color_id => $properties ) {
+
+			$color = $this->get_color( $color_id );
 
 			/* Get the saved color. */
-			$color = get_theme_mod( 'color_palette_' . sanitize_key( $name ), $this->colors[ $name ]['default'] );
+			$hex = get_theme_mod( 'color_palette_' . sanitize_key( $color_id ), $color['default'] );
 
 			/* Loop through each of the properties. */
-			foreach ( $properties as $property => $elements ) {
-
-				/* If the property is allowed, add the style rule. */
-				if ( in_array( $property, $this->allowed_properties ) )
-					$style .= join( ', ', $elements ) . " { {$property}: #{$color}; } ";
-			}
+			foreach ( $properties as $property => $selectors )
+				$style .= join( ', ', $selectors ) . " { {$property}: #{$hex}; } ";
 		}
 
 		/* Put the final style output together. */
-		$style = "\t" . '<style type="text/css" id="custom-colors-css">' . trim( $style ) . '</style>' . "\n";
+		$style = "\n" . '<style type="text/css" id="custom-colors-css">' . trim( $style ) . '</style>' . "\n";
 
 		/* Cache the style, so we don't have to process this on each page load. */
 		wp_cache_set( 'color_palette', $style );
@@ -223,17 +235,17 @@ class Color_Palette {
 		$priority = 0;
 
 		/* Loop through each of the defined color options. */
-		foreach ( $this->colors as $name => $args ) {
+		foreach ( $this->colors as $color_id => $args ) {
 
 			/* Iterate the priority. */
 			$priority = $priority + 10;
 
 			/* Sanitize the color option name. */
-			$name = sanitize_key( $name );
+			$color_id = sanitize_key( $color_id );
 
 			/* Add a new setting for this color. */
 			$wp_customize->add_setting(
-				"color_palette_{$name}",
+				"color_palette_{$color_id}",
 				array(
 					'default'              => "#{$args['default']}",
 					'type'                 => 'theme_mod',
@@ -248,11 +260,11 @@ class Color_Palette {
 			$wp_customize->add_control(
 				new WP_Customize_Color_Control(
 					$wp_customize,
-					"color-palette-control-{$name}",
+					"color-palette-control-{$color_id}",
 					array(
-						'label'    => esc_html( $this->colors[ $name ]['label'] ),
+						'label'    => esc_html( $args['label'] ),
 						'section'  => 'colors',
-						'settings' => "color_palette_{$name}",
+						'settings' => "color_palette_{$color_id}",
 						'priority' => $priority
 					)
 				)
@@ -275,32 +287,32 @@ class Color_Palette {
 
 		<script type="text/javascript">
 
-		<?php foreach ( $this->rules as $name => $properties ) { ?>
+		<?php foreach ( $this->rules as $color_id => $rule ) { ?>
 			wp.customize( 
-				'color_palette_<?php echo sanitize_key( $name ); ?>',
+				'color_palette_<?php echo sanitize_key( $color_id ); ?>',
 				function( value ) {
 					value.bind(
 						function( to ) {
-						<?php foreach ( $properties as $property => $elements ) { 
+						<?php foreach ( $rule as $property => $selectors ) { 
 
 							/* Only run if property is allowed. */
 							if ( !in_array( $property, $this->allowed_properties ) )
 								continue;
 
 							/* Remove pseudo-selectors and pseudo-elements. */
-							$elements = array_filter( $elements, array( $this, 'remove_js_pseudo' ) );
+							$selectors = array_filter( $selectors, array( $this, 'remove_js_pseudo' ) );
 
 							/**
 							 * Allow theme developers to define jQuery().not() so 
 							 * they can make sure some elements don't get 
 							 * overwritten on the live preview.
 							 */
-							$do_not_overwrite = apply_filters( 'color_palette_js_do_not_overwrite', '', $name, $property, $elements );
+							$do_not_overwrite = apply_filters( 'color_palette_preview_js_ignore', '', $color_id, $property, $selectors );
 
 							$not = !empty( $do_not_overwrite ) ? ".not( '{$do_not_overwrite}' )" : '';
 							?>
 							
-							jQuery( '<?php echo join( ', ', $elements ); ?>' )<?php echo $not; ?>.css( '<?php echo $property; ?>', to );
+							jQuery( '<?php echo join( ', ', $selectors ); ?>' )<?php echo $not; ?>.css( '<?php echo $property; ?>', to );
 						<?php } ?>
 						}
 					);
@@ -336,7 +348,7 @@ class Color_Palette {
 	 * @param  string $element
 	 * @return bool
 	 */
-	function remove_js_pseudo( $element ) {
+	public function remove_js_pseudo( $element ) {
 
 		if ( false === strpos( $element, ':' ) )
 			return true;
