@@ -12,7 +12,7 @@
 
 						<header class="entry-header">
 							<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
-							<?php echo apply_atomic_shortcode( 'byline', '<div class="byline">' . sprintf( __( 'Sizes: %s', 'chun' ), chun_get_image_size_links() ) . '</div>' ); ?>
+							<?php echo apply_atomic_shortcode( 'entry_byline', '<div class="entry-byline">' . sprintf( __( 'Sizes: %s', 'chun' ), chun_get_image_size_links() ) . '</div>' ); ?>
 						</header><!-- .entry-header -->
 
 						<div class="entry-content">
