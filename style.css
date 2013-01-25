@@ -807,7 +807,7 @@ a:hover .avatar {
 
 	/* === Byline and meta */
 
-	.byline {
+	.entry-byline {
 		margin:        0 0 25px;
 		padding:       0 0 25px;
 		text-align:    center;
@@ -820,14 +820,14 @@ a:hover .avatar {
 		border-top: 1px solid #e5e5e5;
 		}
 
-	.byline,
+	.entry-byline,
 	.entry-meta,
 	.comment-meta {
 		font-style: italic;
 		color:      #959595;
 		}
 
-		.byline a,
+		.entry-byline a,
 		.entry-meta a,
 		.comment-meta a {
 			padding:       0 2px;
@@ -836,7 +836,7 @@ a:hover .avatar {
 			border-bottom: 1px solid transparent;
 			}
 
-		.byline a:hover,
+		.entry-byline a:hover,
 		.entry-meta a:hover,
 		.comment-meta a:hover {
 			color:           #656565;
@@ -845,7 +845,7 @@ a:hover .avatar {
 			text-decoration: none;
 		}
 
-		.byline .published,
+		.entry-byline .published,
 		.entry-meta .published,
 		.entry-meta abbr,
 		.comment-meta .published abbr {

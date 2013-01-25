@@ -6,8 +6,8 @@
 			<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
 
 			<?php echo apply_atomic_shortcode( 
-				'byline', 
-				'<div class="byline">' . 
+				'entry_byline', 
+				'<div class="entry-byline">' . 
 					hybrid_entry_terms_shortcode( array( 'taxonomy' => 'portfolio', 'before' => __( 'Portfolio:', 'chun' ) . ' ' ) ) . 
 				'</div>'
 			); ?>

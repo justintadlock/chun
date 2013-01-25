@@ -4,7 +4,7 @@
 
 		<header class="entry-header">
 			<?php echo apply_atomic_shortcode( 'entry_title', the_title( '<h1 class="entry-title">', '</h1>', false ) ); ?>
-			<?php echo apply_atomic_shortcode( 'byline', '<div class="byline">' . __( '[post-format-link] file published on [entry-published] [entry-comments-link before=" | "] [entry-edit-link before="| "]', 'chun' ) . '</div>' ); ?>
+			<?php echo apply_atomic_shortcode( 'entry_byline', '<div class="entry-byline">' . __( '[post-format-link] file published on [entry-published] [entry-comments-link before=" | "] [entry-edit-link before="| "]', 'chun' ) . '</div>' ); ?>
 		</header><!-- .entry-header -->
 
 		<div class="entry-content">
