@@ -579,10 +579,10 @@ function chun_cp_preview_js_ignore( $selectors, $color_id, $property ) {
 	 */
 	function chun_get_portfolio_item_link() {
 
-		$url = get_post_meta( get_the_ID(), '_portfolio_item_url', true );
+		$url = get_post_meta( get_the_ID(), 'portfolio_item_url', true );
 
 		if ( !empty( $url ) )
-			return '<a href="' . esc_url( $url ) . '">' . __( 'Project <abbr title="Uniform Resource Locator">URL</abbr>', 'chun' ) . '</a>';
+			return '<span class="project-url">' . __( 'Project <abbr title="Uniform Resource Locator">URL</abbr>:', 'chun' ) . ' <a class="portfolio-item-link" href="' . esc_url( $url ) . '">' . $url . '</a></span> ';
 	}
 
 /* End CPT: Portfolio section. */
