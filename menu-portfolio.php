@@ -18,12 +18,21 @@
 	<div id="menu-portfolio">
 		<ul id="menu-portfolio-items" class="menu-items">
 			<?php $type = get_post_type_object( 'portfolio_item' ); ?>
+
 			<li <?php echo is_post_type_archive( 'portfolio_item' ) ? 'class="current-cat"' : ''; ?>>
 				<a href="<?php echo get_post_type_archive_link( 'portfolio_item' ); ?>">
 					<?php echo ( isset( $type->labels->archive_title ) ? $type->labels->archive_title : $type->labels->name ); ?>
 				</a>
 			</li>
-			<?php wp_list_categories( array( 'taxonomy' => 'portfolio', 'depth' => 1, 'title_li' => false ) ); ?>
+
+			<?php wp_list_categories( 
+				array( 
+					'taxonomy'     => 'portfolio', 
+					'depth'        => 1, 
+					'hierarchical' => false,
+					'title_li'     => false 
+				) 
+			); ?>
 		</ul>
 	</div>
 
