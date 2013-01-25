@@ -538,7 +538,7 @@ a:hover .avatar {
 			z-index:    1;
 			text-align: left;
 
-				-webkit-transition: all .2s ease-out;
+				-webkit-transition: all .1s ease-out;
 			transition: all .2s ease-out;
 		}
 
@@ -847,6 +847,7 @@ a:hover .avatar {
 
 		.byline .published,
 		.entry-meta .published,
+		.entry-meta abbr,
 		.comment-meta .published abbr {
 			font-style:    normal;
 			font-variant:  small-caps;
@@ -858,6 +859,10 @@ a:hover .avatar {
 		.entry-meta .post_tag {
 			display: block;
 			}
+
+		.entry-meta .project-url {
+			display: block;
+		}
 
 	/* === Asides === */
 
