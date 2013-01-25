@@ -5,13 +5,11 @@ if ( post_password_required() || ( !have_comments() && !comments_open() && !ping
 	return;
 ?>
 
-<div id="comments-template">
-
-	<div id="comments">
+	<section id="comments">
 
 		<?php if ( have_comments() ) : ?>
 
-			<h3 id="comments-number" class="comments-header"><?php comments_number( __( 'No Responses', 'chun' ), __( 'One Response', 'chun' ), __( '% Responses', 'chun' ) ); ?></h3>
+			<h2 id="comments-number" class="comments-header"><?php comments_number( __( 'No Responses', 'chun' ), __( 'One Response', 'chun' ), __( '% Responses', 'chun' ) ); ?></h2>
 
 			<?php if ( get_option( 'page_comments' ) ) : ?>
 				<div class="comments-nav">
@@ -41,8 +39,6 @@ if ( post_password_required() || ( !have_comments() && !comments_open() && !ping
 
 		<?php endif; ?>
 
-	</div><!-- #comments -->
-
 	<?php comment_form(); // Loads the comment form. ?>
 
-</div><!-- #comments-template -->
+	</section><!-- #comments -->

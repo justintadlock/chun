@@ -1248,17 +1248,17 @@ a:hover .avatar {
  * --------------------------------------------------------------------------- */
 
 #comments-template {
-	margin:     0 0 50px;
-	padding:    40px 50px 25px;
-	font-size:  1.0625rem;
-	background: #fff;
-	border-top: 10px solid #050505;
 }
 
 /* ====== COMMENTS ======= */
 
 #comments {
 	position: relative;
+	margin:     0 0 50px;
+	padding:    40px 50px 25px;
+	font-size:  1.0625rem;
+	background: #fff;
+	border-top: 10px solid #050505;
 }
 
 	/* === Comments closed message === */
