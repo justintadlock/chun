@@ -805,6 +805,13 @@ a:hover .avatar {
 		text-align: center;
 	}
 
+	.search .hentry .entry-summary {
+		font-size: inherit;
+		font-style: normal;
+		text-align: left;
+		color:      inherit;
+	}
+
 	/* === Byline and meta */
 
 	.entry-byline {
