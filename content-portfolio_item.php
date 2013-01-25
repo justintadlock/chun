@@ -9,7 +9,6 @@
 				'byline', 
 				'<div class="byline">' . 
 					hybrid_entry_terms_shortcode( array( 'taxonomy' => 'portfolio', 'before' => __( 'Portfolio:', 'chun' ) . ' ' ) ) . 
-					chun_get_portfolio_item_link() . 
 				'</div>'
 			); ?>
 		</header><!-- .entry-header -->
@@ -20,7 +19,13 @@
 		</div><!-- .entry-content -->
 
 		<footer class="entry-footer">
-			<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-published] [entry-edit-link before="| "]', 'chun' ) . '</div>' ); ?>
+			<?php echo apply_atomic_shortcode( 
+				'entry_meta', 
+				'<div class="entry-meta">' . 
+					__( '[entry-published] [entry-edit-link before="| "]', 'chun' ) .
+					chun_get_portfolio_item_link() .  
+				'</div>' 
+			); ?>
 		</footer><!-- .entry-footer -->
 
 	<?php } else { ?>
