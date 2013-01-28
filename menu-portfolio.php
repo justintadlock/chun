@@ -30,6 +30,7 @@
 					'taxonomy'     => 'portfolio', 
 					'depth'        => 1, 
 					'hierarchical' => false,
+					'show_option_none' => false,
 					'title_li'     => false 
 				) 
 			); ?>
