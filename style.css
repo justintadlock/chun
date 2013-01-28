@@ -1305,6 +1305,40 @@ a:hover .avatar {
 				text-decoration: none;
 			}
 
+		.widget-search {
+			padding-bottom: 25px;
+		}
+
+		.widget-search label {
+			font-size:  0.9375rem;
+			font-style: italic;
+			color:      #959595;
+		}
+
+		.widget-search input[type="text"] {
+			display:     block;
+			width:       100%;
+			padding:     12px;
+			font-family: Georgia, Times, 'Times New Roman', serif;
+			font-size:   1.0625rem;
+			color:       #656565;
+			background:  #efefef;
+			border:      1px solid #d5d5d5;
+
+				-moz-box-sizing: border-box;
+			box-sizing:  border-box;
+		}
+
+		.widget-search input[type="submit"] {
+			display: none;
+		}
+
+		.widget-search input[type="text"]:focus {
+			color:        #454545;
+			background:   #fafafa;
+			border-color: #e5e5e5;
+		}
+
 /**
  * Comments Template
  * --------------------------------------------------------------------------- */
