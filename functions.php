@@ -69,7 +69,7 @@ function chun_theme_setup() {
 	add_theme_support( 'cleaner-gallery' );
 
 	/* Add theme support for some included libraries. */
-	add_theme_support( 'theme-fonts',   array( 'callback' => 'chun_register_fonts' ) );
+	add_theme_support( 'theme-fonts',   array( 'callback' => 'chun_register_fonts', 'customizer' => true ) );
 	add_theme_support( 'color-palette', array( 'callback' => 'chun_register_colors' ) );
 
 	/* Add theme support for WordPress features. */
