@@ -43,7 +43,40 @@ body {
 	border-top:       10px solid #cb5700;
 	border-bottom:    10px solid #050505;
 
-	background: -webkit-linear-gradient(
+		background: -webkit-linear-gradient(
+			top,
+			#e5e5e5 12.5%,
+			#d5d5d5 25%,
+			#c5c5c5 37.5%,
+			#b5b5b5 50%,
+			#a5a5a5 62.5%,
+			#959595 75%,
+			#858585 87.5%,
+			#757575 100%
+		);
+		background: -moz-linear-gradient(
+			top,
+			#e5e5e5 12.5%,
+			#d5d5d5 25%,
+			#c5c5c5 37.5%,
+			#b5b5b5 50%,
+			#a5a5a5 62.5%,
+			#959595 75%,
+			#858585 87.5%,
+			#757575 100%
+		);
+		background: -o-linear-gradient(
+			top,
+			#e5e5e5 12.5%,
+			#d5d5d5 25%,
+			#c5c5c5 37.5%,
+			#b5b5b5 50%,
+			#a5a5a5 62.5%,
+			#959595 75%,
+			#858585 87.5%,
+			#757575 100%
+		);
+	background: linear-gradient(
 		top,
 		#e5e5e5 12.5%,
 		#d5d5d5 25%,
