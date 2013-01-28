@@ -478,12 +478,10 @@ a:hover .avatar {
 			#site-title a:link,
 			#site-title a:visited {
 				display:       inline-block;
-				/*color:         #050505;*/
-				/*background-color:    #cb5700;*/
+				color:         #050505;
 			}
 
 				#site-title a:hover {
-				/*color:         #050505;*/
 				}
 
 		#site-description {
