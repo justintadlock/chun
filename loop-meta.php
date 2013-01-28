@@ -5,7 +5,7 @@
 			<h1 class="loop-title"><?php echo get_post_field( 'post_title', get_queried_object_id() ); ?></h1>
 
 			<div class="loop-description">
-				<?php echo apply_filters( 'the_content', get_post_field( 'post_content', get_queried_object_id() ) ); ?>
+				<?php echo wpautop( get_post_field( 'post_content', get_queried_object_id() ) ); ?>
 			</div><!-- .loop-description -->
 
 		</div><!-- .loop-meta -->
